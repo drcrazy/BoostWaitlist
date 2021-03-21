@@ -445,7 +445,7 @@ function GUI:Update(fullUpdate)
     for i=1,#players do
       players[i].accountBalance = Main:GetBalance(players[i].name) or 0
       players[i].overrideCharge = Main:GetOverrideDefaultCharge(players[i].name) or DB.Main.cost
-      players[i].offline = UnitIsConnected(players[i].name) or false
+      players[i].online = UnitIsConnected(players[i].name) or false
     end
   end
   GUI:RebuildWaitlist()
