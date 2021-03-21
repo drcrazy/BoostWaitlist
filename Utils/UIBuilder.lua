@@ -294,6 +294,18 @@ function UIBuilder:Table(frame, cols, visibleRows, ofx, ofy)
     return st
 end
 
+function UIBuilder:ConfirmDialog(title, message, buttons)
+    local f = StdUi:Confirm(title, "|n|n" .. message .. "|n", buttons, addonName .. title)
+    f.messageLabel:SetFont(StdUi.config.font.family,StdUi.config.font.size)
+    f.titlePanel.label:SetFont(StdUi.config.font.family,16)
+
+    f.titlePanel:SetPoint("TOPLEFT", f, "TOPLEFT", 0, -5)
+    f.titlePanel.label:ClearAllPoints()
+    f.titlePanel.label:SetPoint("LEFT", f.titlePanel, "LEFT", 10, 0)
+
+    underline(f, f.titlePanel, 150, 4)
+end
+
 function UIBuilder:Window(parent, width, height, title)
     local f = StdUi:Panel(parent, width, height)
     f.titleLabel = UIBuilder:Header(f, title, false)

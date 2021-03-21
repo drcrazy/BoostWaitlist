@@ -457,103 +457,25 @@ function GUI:Update(fullUpdate)
 end
 
 function GUI:ShowPopupFrame(reason)
-  if (GUI.popupFrame == nil) then
-    GUI:CreatePopupFrame()
-  end
-
   if (reason == "DONE_BOOSTING") then
-    GUI.popupFrame.text:SetText("You turned BoostWaitlist off, but you still have players in the waitlist.|nDo you want to clear the waitlist and whisper those players that you're done?")
-    GUI.popupFrame.leftButton:SetText("Yes")
-    GUI.popupFrame.leftButton:SetScript("OnClick", function(self, button, down)
-      Main:NotifyClearWaitlist()
-      GUI.popupFrame:Hide()
-    end)
-    GUI.popupFrame.rightButton:SetText("No")
-    GUI.popupFrame.rightButton:SetScript("OnClick", function(self, button, down)
-      GUI.popupFrame:Hide()
-    end)
-    GUI.popupFrame:Show()
+    local buttons = {
+      yes     = {
+        text    = 'Yes',
+        onClick = function(b)
+          Main:NotifyClearWaitlist()
+          b.window:Hide()
+        end
+      },
+      no = {
+        text    = 'No',
+        onClick = function(b)
+          b.window:Hide();
+        end
+      }
+    }
+    UIBuilder:ConfirmDialog("Inform Waitlist?", "You turned BoostWaitlist off but you still have players in the waitlist.  Do you want to clear the waitlist and whisper those players that you're done?", buttons)
   end
 end
-
-function GUI:CreatePopupFrame()
-  -- Popup Frame --------------------------
-  local frameName = "HPCustomerGUI-PopupFrame"
-  local popupFrame = CreateFrame("Frame", frameName, UIParent)
-  popupFrame:ClearAllPoints()
-  popupFrame:SetPoint("CENTER", 0, 0)
-  popupFrame:SetSize(520, 110)
-  popupFrame:SetMovable(true)
-  popupFrame:EnableMouse(true)
-  popupFrame:RegisterForDrag("LeftButton")
-  popupFrame:SetScript("OnMouseDown", popupFrame.StartMoving)
-  popupFrame:SetScript("OnMouseUp", popupFrame.StopMovingOrSizing)
-  popupFrame:SetToplevel(true)
-  popupFrame:SetClampedToScreen(true)
-  popupFrame:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background" })
-  popupFrame:SetBackdropColor(0, 0, 0, 1)
-  popupFrame:Hide()
-  GUI.popupFrame = popupFrame
-
-  -- Popup Title Frame ----------------------------
-  popupFrame.titleFrame = CreateFrame("Frame", frameName.."-TitleFrame", popupFrame)
-  popupFrame.titleFrame:SetSize(10, 10)
-  popupFrame.titleFrame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
-  popupFrame.titleFrame:SetBackdropColor(0, 0, 0, 1)
-  popupFrame.titleFrame.text = popupFrame.titleFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-  popupFrame.titleFrame.text:SetAllPoints(popupFrame.titleFrame)
-  popupFrame.titleFrame.text:SetJustifyH("CENTER")
-  popupFrame.titleFrame.text:SetText(DB.Main.name.."'s Boosting")
-  popupFrame.titleFrame:ClearAllPoints()
-  popupFrame.titleFrame:SetPoint("TOPLEFT", popupFrame, 10, -7)
-  popupFrame.titleFrame:SetPoint("BOTTOMRIGHT", popupFrame, "TOPRIGHT", -30, -25)
-
-  -- Popup Frame Text ---------------------------
-  popupFrame.text = popupFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-  popupFrame.text:SetPoint("CENTER", popupFrame, "CENTER", 0, 0) 
-  popupFrame.text:SetJustifyH("CENTER")
-
-  -- Popup Left Button -------------------
-  popupFrame.leftButton = GUI:CreateButton(frameName.."-LeftButton", popupFrame, "CENTER", -70, -40)
-  GUI:ConfigureButton(popupFrame.leftButton, 48, 20, "Confirm")
-  popupFrame.leftButton:RegisterForClicks("LeftButtonUp")
-
-  -- Popup Right Button -------------------
-  popupFrame.rightButton = GUI:CreateButton(frameName.."-RightButton", popupFrame, "CENTER", 70, -40)
-  GUI:ConfigureButton(popupFrame.rightButton, 48, 20, "Cancel")
-  popupFrame.rightButton:RegisterForClicks("LeftButtonUp")
-end
-
-function GUI:CreateButton(name, parent, anchor, hpos, vpos)
-  local button = CreateFrame("Button", name, parent)
-  button:SetPoint("CENTER", parent, anchor, hpos, vpos)
-  return button
-end
-
-function GUI:ConfigureButton(button, width, height, text)
-  button:SetSize(width, height)
-  button:SetText(text)
-  button:SetNormalFontObject("GameFontNormal")
-
-  local ntex = button:CreateTexture()
-  ntex:SetTexture("Interface/Buttons/UI-Panel-Button-Up")
-  ntex:SetTexCoord(0, 0.625, 0, 0.6875)
-  ntex:SetAllPoints()	
-  button:SetNormalTexture(ntex)
-  
-  local htex = button:CreateTexture()
-  htex:SetTexture("Interface/Buttons/UI-Panel-Button-Highlight")
-  htex:SetTexCoord(0, 0.625, 0, 0.6875)
-  htex:SetAllPoints()
-  button:SetHighlightTexture(htex)
-  
-  local ptex = button:CreateTexture()
-  ptex:SetTexture("Interface/Buttons/UI-Panel-Button-Down")
-  ptex:SetTexCoord(0, 0.625, 0, 0.6875)
-  ptex:SetAllPoints()
-  button:SetPushedTexture(ptex)
-end
-
 
 function GUI:ShowMinimapIcon()
   DB.GUI.minimap.hide = false
