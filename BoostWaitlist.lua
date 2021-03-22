@@ -220,7 +220,7 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
           print("Incorrect usage: /boost maxwaitlist <##>")
         end
         used = 1
-    elseif (cmd[1] == "enablebalancewhisperthreshold") then  --!  fix the whisper!
+    elseif (cmd[1] == "enablebalancewhisperthreshold") then
       if (cmd[2] == "on") then
         DB.enableBalanceWhisperThreshold = true
         print("Enabling balance whisper threshold. Boostees will not be whispered until their balance meets")
@@ -644,7 +644,7 @@ function Main:ChargeBalance(name, noUpdateGui)
       local rsp = c.."g was charged for your boost. New balance: "..DB.accountBalance[name].."g"
       SendChatMessage(rsp, "WHISPER", nil, name)
     elseif (DB.accountBalance[name] < DB.balanceWhisperThreshold) then
-      local rsp = DB.accountBalance[name].."g was charged for your boost. New balance: "..DB.accountBalance[name].."g"
+      local rsp = "Your current balance has changed. New balance: "..DB.accountBalance[name].."g"
       SendChatMessage(rsp, "WHISPER", nil, name)
     end
     if (not noUpdateGui) then

@@ -295,7 +295,7 @@ function UIBuilder:Table(frame, cols, visibleRows, ofx, ofy)
 end
 
 function UIBuilder:ConfirmDialog(title, message, buttons)
-    local f = StdUi:Confirm(title, "|n|n" .. message .. "|n", buttons, addonName .. title)
+    local f = StdUi:Confirm(title, "|n|n" .. message, buttons, addonName .. title)
     f.messageLabel:SetFont(StdUi.config.font.family,StdUi.config.font.size)
     f.titlePanel.label:SetFont(StdUi.config.font.family,16)
 

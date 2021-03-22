@@ -77,7 +77,7 @@ local waitlistTableCols = {
 
                   if (cellFrame.invite == nil) then
                       cellFrame.invite = UIBuilder:TextButton(cellFrame, 'Invite', 50, 20)
-                      cellFrame.invite:SetPoint('RIGHT', cellFrame.remove, 'LEFT', -1, 0)
+                      cellFrame.invite:SetPoint('RIGHT', cellFrame.remove, 'LEFT', -1.5, 0)
                   end
 
                   if (cellFrame.whisper == nil) then
@@ -187,7 +187,7 @@ local playerTableCols = {
 
                     if (cellFrame.add == nil) then
                         cellFrame.add = UIBuilder:TextButton(cellFrame, 'Add', 50, 20)
-                        cellFrame.add:SetPoint('RIGHT', cellFrame.trade, 'LEFT', -1, 0)
+                        cellFrame.add:SetPoint('RIGHT', cellFrame.trade, 'LEFT', -1.5, 0)
                     end
 
                     if (cellFrame.addEditBox == nil) then
@@ -195,7 +195,7 @@ local playerTableCols = {
                       function(v) --doesn't scope properly
                         
                       end)
-                      cellFrame.addEditBox:SetPoint('RIGHT', cellFrame.trade, 'LEFT', -1, 0)
+                      cellFrame.addEditBox:SetPoint('RIGHT', cellFrame.trade, 'LEFT', -1.5, 0)
                     end
 
                     if (cellFrame.charge == nil) then
@@ -270,6 +270,7 @@ function GUI:Create()
   frame:SetPoint(DB.GUI.points[1], DB.GUI.points[2], DB.GUI.points[3], DB.GUI.points[4], DB.GUI.points[5])
   frame:SetMovable(true)
   frame:EnableMouse(true)
+  frame:SetClampedToScreen(true)
   frame:RegisterForDrag("LeftButton")
   frame:SetScript("OnMouseDown", frame.StartMoving)
   frame:SetScript("OnMouseUp", function(self)
