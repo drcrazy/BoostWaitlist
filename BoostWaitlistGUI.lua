@@ -265,7 +265,7 @@ end
 -- Main GUI creation
 
 function GUI:Create()
-  local frame = UIBuilder:Window(UIParent, 467, 400, addonName)
+  local frame = UIBuilder:Window(UIParent, 468, 400, addonName)
   frame:SetToplevel(true)
   frame:SetPoint(DB.GUI.points[1], DB.GUI.points[2], DB.GUI.points[3], DB.GUI.points[4], DB.GUI.points[5])
   frame:SetMovable(true)
@@ -295,7 +295,7 @@ function GUI:Create()
   function()
     Main:ChargeAll()
   end)
-  frame.chargeAllButton:SetPoint("LEFT", frame.auobillCheckbox, "RIGHT", 275, 0)
+  frame.chargeAllButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -10, -63)
 
   frame.defaultPrice = UIBuilder:NumericEditBox(frame, DB.Main.cost, 40, 25, 
   function(v)
