@@ -1,7 +1,7 @@
 ## Interface: 11306
 ## Title: BoostWaitlist
 ## Author: Skarrow, Gnerf/SuperFine
-## Version: 3.1.0
+## Version: 3.1.1
 ## Notes: Addon to help boosters manage waitlists and transactions.
 ## SavedVariablesPerCharacter: BoostWaitlistDB
 
