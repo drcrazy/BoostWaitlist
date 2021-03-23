@@ -7,6 +7,7 @@ _G.BoostWaitlistDB = _G.BoostWaitlistDB or {}
 local DB -- assigned during ADDON_LOADED
 local Main = addon
 local GUI = addon.GUI
+local SimpleThrottle = addon.SimpleThrottle
 
 
 -- Register for events
@@ -36,7 +37,7 @@ local function eventHandler(self, event, arg1, arg2, ...)
       
       if (strlower(arg1):find("boost")) then
         local sender = Main:RemoveServerFromName(arg2)
-        SendChatMessage(DB.inactivereplymsg, "WHISPER", nil, sender)
+        SimpleThrottle:SendChatMessage(DB.inactivereplymsg, "WHISPER", nil, sender)
       end
     end
   elseif (event == "CHAT_MSG_SYSTEM") then
@@ -146,6 +147,10 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
       used = 1
     elseif (cmd[1] == "gui") then
       GUI:Show()
+      used = 1
+    elseif (cmd[1] == "send") then --!
+      -- GUI:Show()
+      Main:SendTest()
       used = 1
     elseif (cmd[1] == "chargeall") then
       if (DB.active) then
@@ -385,6 +390,14 @@ function Main:SetInitState()
   Main.partyNames = {}
 end
 
+--!
+function Main:SendTest()
+
+  for i=1,30 do
+    SimpleThrottle:SendChatMessage("Test message" .. i, "WHISPER", nil, "Gnerff")
+  end
+end
+
 function Main:HandleAddonOn()
   DB.name = UnitName("player")
   print("BoostWaitlist addon activated")
@@ -434,7 +447,7 @@ function Main:HandleWhisperCommand(msg, sender)
       Main:RequestWaitlistFromWhisper(sender, sender)
     else
       local rsp = "I'm sorry, but the waitlist is currently full."
-      SendChatMessage(rsp, "WHISPER", nil, sender)
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
     end
   elseif (lc_msg:find("wait") == 2) then
     if (DB.enableWaitlist and DB.maxWaitlist > #DB.waitlistInfo.waitlist) then
@@ -449,13 +462,13 @@ function Main:HandleWhisperCommand(msg, sender)
         Main:RequestWaitlistFromWhisper(sender, main)
       else
         local rsp = "The format for this command is: !waitlist <alt name>"
-        SendChatMessage(rsp, "WHISPER", nil, sender)
+        SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
         rsp = "For example, !waitlist Tekkie"
-        SendChatMessage(rsp, "WHISPER", nil, sender)
+        SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
       end
     else
       local rsp = "I'm sorry, but the waitlist is currently full."
-      SendChatMessage(rsp, "WHISPER", nil, sender)
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
     end
   elseif (lc_msg:find("canc") == 2) then
     Main:RemoveWaitlist(sender)
@@ -469,7 +482,7 @@ function Main:HandleWhisperCommand(msg, sender)
     Main:WhisperCommands(sender)
   else
     local rsp = "Sorry, that command is not supported."
-    SendChatMessage(rsp, "WHISPER", nil, sender)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
     Main:WhisperCommands(sender)
   end
 end
@@ -485,14 +498,14 @@ function Main:StartConv(sender)
   end
   -- 81 chars
   local rsp = DB.initialReply.." "..groupFormSentence.." Reply with '!waitlist' to get put on the waitlist, or '!commands' for more info."
-  SendChatMessage(rsp, "WHISPER", nil, sender)
+  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
   Main:SetConvState(sender, "STARTED")
 end
 
 function Main:RequestWaitlistFromWhisper(sender, target)
   if (Main.managerOnBreak) then
     local rsp = "Sorry, I'm taking a break right now. I expect to be back at "..Main.managerBreakEndTime.."."
-    SendChatMessage(rsp, "WHISPER", nil, sender) 
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender) 
   else
     if (not Main:InWaitlist(target)) then
       Main:SetConvState(target, "STARTED")
@@ -541,9 +554,9 @@ function Main:RequestWaitlist(sender, target)
   print("Waitlist request for "..target.." from "..sender)
 
   local rsp = "Thanks. A group invite will be sent as soon as I'm ready. You can reply '!line' to see your place in the waitlist."
-  SendChatMessage(rsp, "WHISPER", nil, sender)
+  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
   rsp = "If you want to log into a different character while waiting, just send me '!waitlist "..target.."' from that character."
-  SendChatMessage(rsp, "WHISPER", nil, sender)
+  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
 
   GUI:Update()
 end
@@ -588,7 +601,7 @@ function Main:UpdateWaitlistSender(sender, target)
 
   if (sender ~= target) then
     local rsp = "Thanks. I'll whisper you when I'm ready for you to log over."
-    SendChatMessage(rsp, "WHISPER", nil, sender)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
   end
 
   GUI:Update()
@@ -599,9 +612,9 @@ function Main:NotifyClearWaitlist()
   for i=1,#waitlistInfo.waitlist do
     local request = waitlistInfo.waitlist[i]
     local rsp = DB.doneMessage
-    SendChatMessage(rsp, "WHISPER", nil, request.sender)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, request.sender)
     if (request.sender ~= request.target) then
-      SendChatMessage(rsp, "WHISPER", nil, request.target)
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, request.target)
     end
   end
   Main:ResetWaitlistInfo()
@@ -613,7 +626,7 @@ function Main:WhisperCommands(target)
   table.insert(rsps, "!waitlist <alt name> - sign up to get boosts while waiting on a different character")
   table.insert(rsps, "!line - get current waitlist length")
   for i=1,#rsps do
-    SendChatMessage(rsps[i], "WHISPER", nil, target)
+    SimpleThrottle:SendChatMessage(rsps[i], "WHISPER", nil, target)
   end
 end
 
@@ -647,10 +660,10 @@ function Main:ChargeBalance(name, noUpdateGui)
     end
     if (not DB.enableBalanceWhisperThreshold) then
       local rsp = c.."g was charged for your boost. New balance: "..DB.accountBalance[name].."g"
-      SendChatMessage(rsp, "WHISPER", nil, name)
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
     elseif (DB.accountBalance[name] < DB.balanceWhisperThreshold) then
       local rsp = "Your current balance has changed. New balance: "..DB.accountBalance[name].."g"
-      SendChatMessage(rsp, "WHISPER", nil, name)
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
     end
     if (not noUpdateGui) then
       GUI:Update()
@@ -685,7 +698,7 @@ function Main:AddBalance(name, amount)
   end
   GUI:Update()
   local rsp = amount.."g was added to your balance. New balance: "..DB.accountBalance[name].."g"
-  SendChatMessage(rsp, "WHISPER", nil, name)
+  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
 end
 
 function Main:RefundBalance(name, amount)
@@ -693,7 +706,7 @@ function Main:RefundBalance(name, amount)
     DB.accountBalance[name] = DB.accountBalance[name] - amount
     GUI:Update()
     local rsp = amount.."g was refunded from your balance. New balance: "..DB.accountBalance[name].."g"
-    SendChatMessage(rsp, "WHISPER", nil, name)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
   end
 end
 
@@ -726,10 +739,10 @@ end
 function Main:WhisperBalance(name)
   if (DB.accountBalance[name] ~= nil) then
     local rsp = "Current balance: "..DB.accountBalance[name].."g"
-    SendChatMessage(rsp, "WHISPER", nil, name)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
   else
     local rsp = "No active balance is being tracked for your character."
-    SendChatMessage(rsp, "WHISPER", nil, name)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
   end
 end
 
@@ -802,10 +815,10 @@ function Main:WhisperEta(target)
     else
       rsp = "The line is currently "..etaInfo.lineSpot.." players long."
     end
-    SendChatMessage(rsp, "WHISPER", nil, target)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
   else
     local rsp = "Sorry, I can't tell what place you are in the waitlist right now. I may have had a disconnect, but I will handle things manually."
-    SendChatMessage(rsp, "WHISPER", nil, target)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
   end
 end
 
@@ -833,14 +846,14 @@ function Main:TriggerInvite(target)
   if (requestInfo ~= nil) then
     if (requestInfo.sender ~= requestInfo.target) then
       local rsp = "Hi "..requestInfo.sender..", the boosts you requested for "..target.." are ready. Please log over and whisper me '!invite' from "..target.."."
-      SendChatMessage(rsp, "WHISPER", nil, requestInfo.sender)
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, requestInfo.sender)
 
       local rsp = "Hi "..target..", your invite for boosts has been sent."
-      SendChatMessage(rsp, "WHISPER", nil, target)
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
       InviteUnit(target)
     else
       local rsp = "Hi "..target..", your invite for boosts has been sent."
-      SendChatMessage(rsp, "WHISPER", nil, target)
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
       InviteUnit(target)
     end
     if (Main.groupRoster[target]) then
@@ -859,10 +872,10 @@ function Main:GetReadyWhisper(target)
   if (requestInfo ~= nil) then
     if (requestInfo.sender ~= requestInfo.target) then
       local rsp = "Hi "..requestInfo.sender..", the boosts you requested for "..target.." will be ready soon. If "..target.." isn't ready outside, then please start heading over here when you get a chance."
-      SendChatMessage(rsp, "WHISPER", nil, requestInfo.sender)
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, requestInfo.sender)
     end
     local rsp = "Hi "..target..", I'm almost ready to invite you for boosts. Please start heading over here when you get a chance."
-    SendChatMessage(rsp, "WHISPER", nil, target)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
   else
     print("BoostWaitlist - triggering whisper on "..target.." which doesn't have requestInfo")
   end
@@ -872,7 +885,7 @@ function Main:HandleInviteFail(player, reason)
   local requestInfo = Main:GetWaitlistInfo().requestsByTarget[player]
   if (requestInfo ~= nil) then
     local rsp = "Hi, I tried to invite you for boosts but you "..reason..". Reply with '!invite' to get another invite or '!cancel' to cancel your boosting request."
-    SendChatMessage(rsp, "WHISPER", nil, player)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, player)
   end
 end
 
@@ -882,7 +895,7 @@ function Main:HandleInviteRequest(player)
     InviteUnit(player)
   else
     local rsp = "Sorry, I'm not ready to invite you for your boost just yet."
-    SendChatMessage(rsp, "WHISPER", nil, player)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, player)
   end
 end
 

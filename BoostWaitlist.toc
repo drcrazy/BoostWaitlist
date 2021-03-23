@@ -9,6 +9,7 @@ Libs\LibStub\LibStub.lua
 Libs\StdUi\StdUi.xml
 embeds.xml
 BoostWaitlistDB.lua
+Utils\SimpleThrottle.lua
 Utils\UIBuilder.lua
 BoostWaitlistGUI.lua
 BoostWaitlist.lua
