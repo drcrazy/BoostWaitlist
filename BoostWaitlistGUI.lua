@@ -279,8 +279,7 @@ function GUI:Create()
     DB.GUI.points = {a, nil, c, d, e}
   end)
 
-  local closeButton = UIBuilder:CloseButton(frame)
-  closeButton:SetPoint('TOPRIGHT', frame, 'TOPRIGHT')
+  frame.closeButton = UIBuilder:CloseButton(frame)
 
   -- Header options
 

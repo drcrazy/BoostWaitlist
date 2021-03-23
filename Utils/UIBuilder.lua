@@ -98,9 +98,12 @@ end
 
 function UIBuilder:CloseButton(frame)
     local b = StdUi:SquareButton(frame, 16,16, 'DOWN')
+    b:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
+
     b:SetScript("OnClick", function()
         frame:Hide()
     end)
+
     return b
 end
 
@@ -304,6 +307,10 @@ function UIBuilder:ConfirmDialog(title, message, buttons)
     f.titlePanel.label:SetPoint("LEFT", f.titlePanel, "LEFT", 10, 0)
 
     underline(f, f.titlePanel, 150, 4)
+
+    f.closeBtn:Hide()
+
+    f.closeButton = UIBuilder:CloseButton(f)
 end
 
 function UIBuilder:Window(parent, width, height, title)
