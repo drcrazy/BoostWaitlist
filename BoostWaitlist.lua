@@ -147,6 +147,11 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
     elseif (cmd[1] == "gui") then
       GUI:Show()
       used = 1
+    elseif (cmd[1] == "chargeall") then
+      if (DB.active) then
+        Main:ChargeAll()
+      end
+      used = 1
     elseif (cmd[1] == "reset") then
       Main:ResetWaitlistInfo()
       used = 1
@@ -995,6 +1000,7 @@ function Main:PrintUsage()
   print("  minimap [show/hide] -- configure the minimap icon")
   print("  add balance <boostee> <amount> -- add balance to the boostee's account")
   print("  charge <boostee> -- add balance to the boostee's account")
+  print("  chargeall -- charge all boostees in the party")
   print("  print <balance> <boostee> -- print boostee's current balance")
   print("  reset <balance> <boostee> -- remove all balance related to boostee's account")
   print("  inactivereply [on/off] -- enables/disables auto-replies while inactive.")
