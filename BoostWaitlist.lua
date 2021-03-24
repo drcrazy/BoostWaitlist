@@ -1050,4 +1050,3 @@ function Main:GetConvState(sender)
     return Main.convState[sender]
   end
 end
-

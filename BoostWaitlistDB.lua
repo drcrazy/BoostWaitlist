@@ -40,4 +40,3 @@ _G.BoostWaitlistDBDefaults = {
     points = {"CENTER"},
   }
 }
-

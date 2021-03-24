@@ -490,4 +490,3 @@ function GUI:HideMinimapIcon()
     GUI.minimapButton:Hide("BoostWaitlist")
   end
 end
-
