@@ -94,7 +94,7 @@ local waitlistTableCols = {
                   end)
 
                   cellFrame.remove:SetScript("OnClick", function()
-                    Main:RemoveWaitlist(rowData.target)
+                    Main:RemoveWaitlist(rowData.target, true)
                   end)
 
               end,

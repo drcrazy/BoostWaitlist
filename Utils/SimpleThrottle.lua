@@ -22,7 +22,7 @@ end
 
 local CanSend = function()
     if (#history < BATCH_SIZE) then return true end
-    local tmpIndex = hindex + 1
+    local tmpIndex = hindex + 1 
     if (tmpIndex > BATCH_SIZE) then tmpIndex = 1 end
 
     return (GetTime() - history[tmpIndex]) > DELAY
@@ -30,20 +30,19 @@ end
 
 --DO NOT CALL THIS FUNCTION DIRECTLY
 function SimpleThrottle:SendMessage(recurse)
-    while (index <= #batch and CanSend()) do
 
+    if (index > #batch) then
+        index = 1
+        batch = {}
+    end
+
+    while (index <= #batch and CanSend()) do
         local b = batch[index]
         SendChatMessage(b.message, b.type, b.language, b.channel)
 
         historyAdd()
 
         index = index + 1
-    end
-
-
-    if (index > #batch) then
-        index = 1
-        batch = {}
     end
 
     if (#batch > 0 and recurse) then
@@ -54,8 +53,14 @@ function SimpleThrottle:SendMessage(recurse)
 end
 
 
-function SimpleThrottle:SendChatMessage(msg, type, language, channel)
-    table.insert(batch, #batch+1, {message = msg, type = type, language = language, channel = channel})
+function SimpleThrottle:SendChatMessage(msg, type, language, channel, priority)
+    if (priority) then
+        SendChatMessage(msg, type, language, channel)
+
+        historyAdd()
+    else
+        table.insert(batch, #batch+1, {message = msg, type = type, language = language, channel = channel})
+    end
 
     if(#batch <= BATCH_SIZE) then
         SimpleThrottle:SendMessage(false)

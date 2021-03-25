@@ -393,7 +393,7 @@ end
 --!
 function Main:SendTest()
 
-  for i=1,30 do
+  for i=1,26 do
     SimpleThrottle:SendChatMessage("Test message" .. i, "WHISPER", nil, "Gnerff")
   end
 end
@@ -468,7 +468,7 @@ function Main:HandleWhisperCommand(msg, sender)
       end
     else
       local rsp = "I'm sorry, but the waitlist is currently full."
-      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
     end
   elseif (lc_msg:find("canc") == 2) then
     Main:RemoveWaitlist(sender)
@@ -498,7 +498,7 @@ function Main:StartConv(sender)
   end
   -- 81 chars
   local rsp = DB.initialReply.." "..groupFormSentence.." Reply with '!waitlist' to get put on the waitlist, or '!commands' for more info."
-  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
+  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
   Main:SetConvState(sender, "STARTED")
 end
 
@@ -554,14 +554,14 @@ function Main:RequestWaitlist(sender, target)
   print("Waitlist request for "..target.." from "..sender)
 
   local rsp = "Thanks. A group invite will be sent as soon as I'm ready. You can reply '!line' to see your place in the waitlist."
-  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
+  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
   rsp = "If you want to log into a different character while waiting, just send me '!waitlist "..target.."' from that character."
-  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
+  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
 
   GUI:Update()
 end
 
-function Main:RemoveWaitlist(sender, joinedGroup)
+function Main:RemoveWaitlist(sender, silent)
   local waitlistInfo = Main:GetWaitlistInfo()
   local found = false
   for i=1,#waitlistInfo.waitlist do
@@ -579,11 +579,14 @@ function Main:RemoveWaitlist(sender, joinedGroup)
     waitlistInfo.requestsBySender[sender] = nil
     waitlistInfo.requestsByTarget[target] = nil
 
-    if (not joinedGroup) then
+    if (not silent) then
       if (DB.enableSounds) then
         PlaySound(8959)
       end
       print("Cancel request for "..target.." from "..sender)
+
+      local rsp = "Thanks. I'll cancel your request to join my boosts."
+      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
     end
     
     GUI:Update()
@@ -601,7 +604,7 @@ function Main:UpdateWaitlistSender(sender, target)
 
   if (sender ~= target) then
     local rsp = "Thanks. I'll whisper you when I'm ready for you to log over."
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
   end
 
   GUI:Update()
@@ -626,7 +629,7 @@ function Main:WhisperCommands(target)
   table.insert(rsps, "!waitlist <alt name> - sign up to get boosts while waiting on a different character")
   table.insert(rsps, "!line - get current waitlist length")
   for i=1,#rsps do
-    SimpleThrottle:SendChatMessage(rsps[i], "WHISPER", nil, target)
+    SimpleThrottle:SendChatMessage(rsps[i], "WHISPER", nil, target, true)
   end
 end
 
@@ -815,7 +818,7 @@ function Main:WhisperEta(target)
     else
       rsp = "The line is currently "..etaInfo.lineSpot.." players long."
     end
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target, true)
   else
     local rsp = "Sorry, I can't tell what place you are in the waitlist right now. I may have had a disconnect, but I will handle things manually."
     SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
