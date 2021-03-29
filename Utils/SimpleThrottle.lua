@@ -60,9 +60,9 @@ function SimpleThrottle:SendChatMessage(msg, type, language, channel, priority)
         historyAdd()
     else
         table.insert(batch, #batch+1, {message = msg, type = type, language = language, channel = channel})
-    end
-
-    if(#batch <= BATCH_SIZE) then
-        SimpleThrottle:SendMessage(false)
+        
+        if(#batch <= BATCH_SIZE) then
+            SimpleThrottle:SendMessage(false)
+        end
     end
 end
