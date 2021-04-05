@@ -5,6 +5,7 @@ local DB -- assigned during ADDON_LOADED
 local Main = addon
 local GUI = {}
 local UIBuilder = addon.UIBuilder
+-- local TEST = false
 
 addon.GUI = GUI
 
@@ -70,19 +71,31 @@ local waitlistTableCols = {
     end,
     renderer = function(cellFrame, value, rowData, columnData)
 
+                  if (cellFrame.buttonFrame == nil) then
+                    local buttonFrame = CreateFrame("Frame", nil, cellFrame)
+                    buttonFrame:SetWidth(150)
+                    buttonFrame:SetHeight(20)
+
+                    buttonFrame:SetPoint("RIGHT", cellFrame, "RIGHT", -1, 0)
+                    cellFrame.buttonFrame = buttonFrame
+                  end
+
                   if (cellFrame.remove == nil) then
                       cellFrame.remove = UIBuilder:TextButton(cellFrame, 'Remove', 50, 20)
-                      cellFrame.remove:SetPoint('RIGHT', cellFrame, 'RIGHT', -1, 0)
+                      -- cellFrame.remove:SetPoint('RIGHT', cellFrame, 'RIGHT', -1, 0)
+                      cellFrame.remove:SetPoint('RIGHT', cellFrame.buttonFrame, 'RIGHT', 0, 0)
                   end
 
                   if (cellFrame.invite == nil) then
                       cellFrame.invite = UIBuilder:TextButton(cellFrame, 'Invite', 50, 20)
-                      cellFrame.invite:SetPoint('RIGHT', cellFrame.remove, 'LEFT', -1.5, 0)
+                      -- cellFrame.invite:SetPoint('RIGHT', cellFrame.remove, 'LEFT', -1.5, 0)
+                      cellFrame.invite:SetPoint('CENTER', cellFrame.buttonFrame, 'CENTER', 0, 0)
                   end
 
                   if (cellFrame.whisper == nil) then
                       cellFrame.whisper = UIBuilder:TextButton(cellFrame, 'Whisper', 50, 20)
-                      cellFrame.whisper:SetPoint('RIGHT', cellFrame.invite, 'LEFT', -1, 0)
+                      -- cellFrame.whisper:SetPoint('RIGHT', cellFrame.invite, 'LEFT', -1, 0)
+                      cellFrame.whisper:SetPoint('LEFT', cellFrame.buttonFrame, 'LEFT', 0, 0)
                   end
 
                   cellFrame.whisper:SetScript("OnClick", function()
@@ -180,14 +193,27 @@ local playerTableCols = {
       index = 'name',
       sortable = false,
       renderer = function(cellFrame, value, rowData, columnData)
+                    
+
+                    if (cellFrame.buttonFrame == nil) then
+                      local buttonFrame = CreateFrame("Frame", nil, cellFrame)
+                      buttonFrame:SetWidth(150)
+                      buttonFrame:SetHeight(20)
+
+                      buttonFrame:SetPoint("RIGHT", cellFrame, "RIGHT", -1, 0)
+                      cellFrame.buttonFrame = buttonFrame
+                    end
+
                     if (cellFrame.trade == nil) then
                         cellFrame.trade = UIBuilder:TextButton(cellFrame, 'Trade', 50, 20)
-                        cellFrame.trade:SetPoint('RIGHT', cellFrame, 'RIGHT', -1, 0)
+                        -- cellFrame.trade:SetPoint('RIGHT', cellFrame, 'RIGHT', -1, 0)
+                        cellFrame.trade:SetPoint('RIGHT', cellFrame.buttonFrame, 'RIGHT', 0, 0)
                     end
 
                     if (cellFrame.add == nil) then
                         cellFrame.add = UIBuilder:TextButton(cellFrame, 'Add', 50, 20)
-                        cellFrame.add:SetPoint('RIGHT', cellFrame.trade, 'LEFT', -1.5, 0)
+                        -- cellFrame.add:SetPoint('RIGHT', cellFrame.trade, 'LEFT', -1.5, 0)
+                        cellFrame.add:SetPoint('CENTER', cellFrame.buttonFrame, 'CENTER', 0, 0)
                     end
 
                     if (cellFrame.addEditBox == nil) then
@@ -195,12 +221,14 @@ local playerTableCols = {
                       function(v) --doesn't scope properly
                         
                       end)
-                      cellFrame.addEditBox:SetPoint('RIGHT', cellFrame.trade, 'LEFT', -1.5, 0)
+                      -- cellFrame.addEditBox:SetPoint('RIGHT', cellFrame.trade, 'LEFT', -1.5, 0)
+                      cellFrame.addEditBox:SetPoint('CENTER', cellFrame.buttonFrame, 'CENTER', 0, 0)
                     end
 
                     if (cellFrame.charge == nil) then
                         cellFrame.charge = UIBuilder:TextButton(cellFrame, 'Charge', 50, 20)
-                        cellFrame.charge:SetPoint('RIGHT', cellFrame.add, 'LEFT', -1, 0)
+                        -- cellFrame.charge:SetPoint('RIGHT', cellFrame.add, 'LEFT', -1, 0)
+                        cellFrame.charge:SetPoint('LEFT', cellFrame.buttonFrame, 'LEFT', 0, 0)
                     end
 
                     cellFrame.addEditBox:Hide()
@@ -310,8 +338,8 @@ function GUI:Create()
   end)
   frame.defaultPrice:SetPoint("RIGHT", frame.chargeAllButton, "LEFT", -10, 0)
 
-  local defaultPriceLabel = UIBuilder:Label(frame, "Default Price:")
-  defaultPriceLabel:SetPoint("RIGHT", frame.defaultPrice, "LEFT", -5, 0)
+  local defaultPriceLabel = UIBuilder:Label(frame.defaultPrice, "Default Price:")
+  -- defaultPriceLabel:SetPoint("LEFT", frame.defaultPrice, "LEFT", -80, 0)
 
   -- player table
 
@@ -420,6 +448,28 @@ function GUI:RebuildPlayerlist()
       offline = true,
   })
   end
+  -- if (TEST) then
+  --   cols = {} --!
+  --   cols[1] = {
+  --     name = "Gnerff",
+  --     accountBalance = Main:GetBalance("Gnerff") or 0,
+  --     overrideCharge = Main:GetOverrideDefaultCharge("Gnerff") or DB.Main.cost,
+  --     offline = true,
+  --   }
+  --   cols[2] = {
+  --     name = "Gnerffto",
+  --     accountBalance = Main:GetBalance("Gnerffto") or 0,
+  --     overrideCharge = Main:GetOverrideDefaultCharge("Gnerffto") or DB.Main.cost,
+  --     offline = true,
+  --   }
+  --   cols[3] = {
+  --     name = "Superfine",
+  --     accountBalance = Main:GetBalance("Superfine") or 0,
+  --     overrideCharge = Main:GetOverrideDefaultCharge("Superfine") or DB.Main.cost,
+  --     offline = true,
+  --   }
+  -- end
+  
   players = cols
 end
 

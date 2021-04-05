@@ -148,10 +148,6 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
     elseif (cmd[1] == "gui") then
       GUI:Show()
       used = 1
-    elseif (cmd[1] == "send") then --!
-      -- GUI:Show()
-      Main:SendTest()
-      used = 1
     elseif (cmd[1] == "chargeall") then
       if (DB.active) then
         Main:ChargeAll()
@@ -388,14 +384,6 @@ function Main:SetInitState()
     Main:SetConvState(waitlist[i].sender, "STARTED")
   end
   Main.partyNames = {}
-end
-
---!
-function Main:SendTest()
-
-  for i=1,26 do
-    SimpleThrottle:SendChatMessage("Test message" .. i, "WHISPER", nil, "Gnerff")
-  end
 end
 
 function Main:HandleAddonOn()
@@ -656,21 +644,20 @@ end
 
 function Main:ChargeBalance(name, noUpdateGui)
   local c = DB.overrideCharge[name] or DB.cost
-  if (DB.accountBalance[name] ~= nil) then
-    DB.accountBalance[name] = DB.accountBalance[name] - c
-    if (DB.accountBalance[name] < 0) then
-      print(name.." now has a negative account balance: "..DB.accountBalance[name].."g")
-    end
-    if (not DB.enableBalanceWhisperThreshold) then
-      local rsp = c.."g was charged for your boost. New balance: "..DB.accountBalance[name].."g"
-      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
-    elseif (DB.accountBalance[name] < DB.balanceWhisperThreshold) then
-      local rsp = "Your current balance has changed. New balance: "..DB.accountBalance[name].."g"
-      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
-    end
-    if (not noUpdateGui) then
-      GUI:Update()
-    end
+  DB.accountBalance[name] = (DB.accountBalance[name] or 0) - c
+  if (DB.accountBalance[name] < 0) then
+    print(name.." now has a negative account balance: "..DB.accountBalance[name].."g")
+  end
+  if (not DB.enableBalanceWhisperThreshold) then
+    local rsp = c.."g was charged for your boost. New balance: "..DB.accountBalance[name].."g"
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
+  elseif (DB.accountBalance[name] < DB.balanceWhisperThreshold) then
+    local rsp = "Your current balance has changed. New balance: "..DB.accountBalance[name].."g"
+    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
+  end
+  if (DB.accountBalance[name] == 0 ) then DB.accountBalance[name] = nil end
+  if (not noUpdateGui) then
+    GUI:Update()
   end
 end
 
@@ -694,31 +681,23 @@ end
 
 
 function Main:AddBalance(name, amount)
-  if (DB.accountBalance[name] ~= nil) then
-    DB.accountBalance[name] = DB.accountBalance[name] + amount
-  else
-    DB.accountBalance[name] = amount
-  end
+  DB.accountBalance[name] = (DB.accountBalance[name] or 0) + amount
   GUI:Update()
   local rsp = amount.."g was added to your balance. New balance: "..DB.accountBalance[name].."g"
   SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
+
+  if (DB.accountBalance[name] == 0 ) then DB.accountBalance[name] = nil end
 end
 
 function Main:RefundBalance(name, amount)
-  if (DB.accountBalance[name] ~= nil) then
-    DB.accountBalance[name] = DB.accountBalance[name] - amount
-    GUI:Update()
-    local rsp = amount.."g was refunded from your balance. New balance: "..DB.accountBalance[name].."g"
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
-  end
+  DB.accountBalance[name] = (DB.accountBalance[name] or 0) - amount
+  GUI:Update()
+  local rsp = amount.."g was refunded from your balance. New balance: "..DB.accountBalance[name].."g"
+  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
 end
 
 function Main:GetBalance(name)
-  if (DB.accountBalance[name] ~= nil) then
-    return DB.accountBalance[name]
-  else
-    return 0
-  end
+  return (DB.accountBalance[name] or 0)
 end
 
 function Main:SetBalance(name, amount)

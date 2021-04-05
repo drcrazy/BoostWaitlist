@@ -80,7 +80,7 @@ function UIBuilder:Header(frame, text, uline)
 end
 
 function UIBuilder:Label(frame, text)
-    local l = StdUi:FontString(frame, text)
+    local l = StdUi:AddLabel(frame, frame, text, "LEFT")
     l:SetFont(StdUi.config.font.family,StdUi.config.font.size)
     local c = StdUi.config.font.color.normal
     l:SetTextColor(c.r, c.g, c.b, c.a)
@@ -91,6 +91,12 @@ end
 function UIBuilder:TextButton(frame, text, width, height, onclick)
     local b = StdUi:Button(frame, width, height, text)
     b.text:SetFont(StdUi.config.font.family,StdUi.config.font.size)
+
+    b.text:ClearAllPoints()
+    b.text:SetWidth(floor(width*0.9))
+	b.text:SetHeight(floor(height*0.9))
+	b.text:SetPoint("CENTER", b, "CENTER")
+
     b:SetScript("OnClick", onclick)
 
     return b
@@ -110,7 +116,10 @@ end
 function UIBuilder:Checkbox(frame, label, description, callback)
     local checkbox = StdUi:Checkbox(frame, label)
     checkbox.text:SetFont(StdUi.config.font.family,StdUi.config.font.size)
-    checkbox:AutoWidth()
+    
+    checkbox.text:ClearAllPoints()
+    checkbox.text:SetPoint("LEFT", checkbox.target, "RIGHT", 4, 0)
+
     StdUi:FrameTooltip(checkbox, description, label, "TOP", true)
     checkbox:HookScript("OnClick", 
     function(self)
