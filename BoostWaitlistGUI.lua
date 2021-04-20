@@ -439,9 +439,9 @@ end
 
 function GUI:RebuildPlayerlist()
   local partyNames = Main:GetPartyNames() or {}
-  local cols = {}
+  local rows = {}
   for i=1,#partyNames do
-    table.insert(cols, {
+    table.insert(rows, {
       name = partyNames[i],
       accountBalance = Main:GetBalance(partyNames[i]) or 0,
       overrideCharge = Main:GetOverrideDefaultCharge(partyNames[i]) or DB.Main.cost,
@@ -470,7 +470,7 @@ function GUI:RebuildPlayerlist()
   --   }
   -- end
   
-  players = cols
+  players = rows
 end
 
 function GUI:RebuildWaitlist()
