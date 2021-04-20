@@ -1,4 +1,4 @@
-## Interface: 11306
+## Interface: 11307
 ## Title: BoostWaitlist
 ## Author: Skarrow, Gnerf/SuperFine
 ## Version: 3.1.3
