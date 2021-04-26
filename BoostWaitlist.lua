@@ -744,9 +744,9 @@ end
 
 function Main:HandleUIInfoMessage(msg)
   if (msg == "Trade complete.") then
-    if (Main:BalanceExists(Main.tradeName) and Main:IsPartyName(Main.tradeName) and (Main.tradeMoney > 9999)) then
+    if (Main:IsPartyName(Main.tradeName) and (Main.tradeMoney > 9999)) then
       Main:AddBalance(Main.tradeName, Main.tradeMoney / 10000)
-    elseif (Main:BalanceExists(Main.tradeName) and (Main.playerTradeMoney > 9999)) then
+    elseif ((Main.playerTradeMoney > 9999)) then
       Main:RefundBalance(Main.tradeName, Main.playerTradeMoney / 10000)
     elseif (Main.tradeMoney > 0) then
       print("Saw trade of "..Main.tradeMoney.."c from "..Main.tradeName.." but it wasn't added to a balance.")
@@ -996,8 +996,8 @@ function Main:PrintUsage()
   print("  add balance <boostee> <amount> -- add balance to the boostee's account")
   print("  charge <boostee> -- add balance to the boostee's account")
   print("  chargeall -- charge all boostees in the party")
-  print("  print <balance> <boostee> -- print boostee's current balance")
-  print("  reset <balance> <boostee> -- remove all balance related to boostee's account")
+  print("  print balance <boostee> -- print boostee's current balance")
+  print("  reset balance <boostee> -- remove all balance related to boostee's account")
   print("  inactivereply [on/off] -- enables/disables auto-replies while inactive.")
   print("  inactivereplymessage <message> -- sets the inactive reply message")
   print("  autobill [on/off] -- enables/disables auto-billing on instance reset.")
