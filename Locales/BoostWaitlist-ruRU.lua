@@ -21,28 +21,28 @@ L["setMaxWaitlist"] = function(S)
 	return 'Задан максимальный размер листа ожидания: ' .. S
 end
 L["setMaxWaitlistUsage"] = "Ошибка. Формат команды: /boost maxwaitlist <##>"
-L["balanceWhisperThresholdEnabled"] = "Enabling balance whisper threshold. Boostees will not be whispered until their balance meets"
+L["balanceWhisperThresholdEnabled"] = "Включено напоминание при низком балансе. Прокачиваемые не будут получать сообщения, пока баланс больше указанной величины."
 L["balanceWhisperThresholdValue"] = function(S)
-  return S .. 'g.  /boost balancewhisperthreshold <##> to change this value.'
+  return S .. 'г.  /boost balancewhisperthreshold <##> для изменения величины.'
 end
-L["balanceWhisperThresholdDisabled"] = "Disabling balance whisper threshold features.  Boostees will recieve whispers every time they are billed."
+L["balanceWhisperThresholdDisabled"] = "Выключено напоминание при низком балансе. Прокачиваемые будут всегда получать сообщения об изменении баланса."
 L["balanceWhisperThresholdSet"] = function(S)
-  return 'Setting balance whisper threshold to: ' .. S
+  return 'Величина низкого баланса изменена на: ' .. S
 end
-L["balanceWhisperThresholdUsage"] = "Incorrect usage: /boost balancewhisperthreshold <##>"
+L["balanceWhisperThresholdUsage"] = "Ошибка. Формат команды: /boost balancewhisperthreshold <##>"
 L["statsEnabled"] = "Статистика включена. (Оно исчо не работает)"
 L["statsDisabled"] = "Статистика выключена."
-L["soundEnabled"] = "Enabling sound triggers for waitlist signup"
-L["soundDisabled"] = "Disabling sound triggers for waitlist signup"
+L["soundEnabled"] = "Включить звук при добавлении в лист ожидания"
+L["soundDisabled"] = "Выключить звук при добавлении в лист ожидания"
 L["setCost"] = "Стоимость изменена."
 L["setCostInvalid"] = "Неправильное значение стоимости."
 L["notInWaitlist"] = function(S)
   return S ..' не в листе ожидания'
 end
 
-L["invalidAmount"] = "Invalid amount input"
+L["invalidAmount"] = "Неправильное значение"
 L["unsupportedCommand"] = function(S)
-  return 'Unsupported input command: ' .. S
+  return 'Не поддерживается команда: ' .. S
 end
 L["addonActivated"] = "Аддон BoostWaitlist активирован"
 L["addonDeactivated"] = "Аддон BoostWaitlist деактивирован"
@@ -50,19 +50,19 @@ L["requestWaitlist"] = function(T,S)
   return 'Запрос на добавление в лист ожидания ' .. T ..' от ' .. S
 end
 L["cancelRequest"] = function(T,S)
-  return 'Cancel request for ' .. T .. ' from ' .. S
+  return 'Удален запрос на ' .. T .. ' от ' .. S
 end
 L["updateWaitlist"] = function(T,S)
-  return 'Updating waitlist sender = ' .. S ..' target = ' .. T
+  return 'Список ожидания обновлен. Отправитель = ' .. S ..', прокачиваемый = ' .. T
 end
 L["balanceNegative"] = function(N,B)
-  return N .. ' now has a negative account balance: ' .. B .."g"
+  return N .. ' ушёл в минус: ' .. B .."г."
 end
 L["overrideRemove"] = function(N)
-  return 'BoostWaitlist - Removing override for ' .. N
+  return 'BoostWaitlist - удалена специальная цена для ' .. N
 end
 L["overrideSet"] = function(N,A)
-  return 'BoostWaitlist - Setting override for ' .. N .. ' to ' .. A .. 'g. Set to default charge amount to remove.'
+  return 'BoostWaitlist - Установлена специальная цена для ' .. N .. ' в размере ' .. A .. 'г. Измени на значение по умолчанию для удаления специальной цены.'
 end
 L["resetBalance"] = function(N, B)
   return 'Сброшен баланс у ' .. N .. '. Предыдущий баланс: ' .. B .. 'г.'
@@ -91,29 +91,29 @@ L["printUsage"] = [[Поддерживаемые команды (/boost в на�
   config -- открыть окно настроек
   setreply <reply sentence> -- задать приветствие
   reset -- сбросить лист ожидания
-  enablebalancewhisperthreshold [on/off] -- whisper balance only when threshold met
-  balancewhisperthreshold -- set the threshold to be met for whispers to be set
+  enablebalancewhisperthreshold [on/off] -- напоминать о балансе при снижении баланса
+  balancewhisperthreshold -- минимальный баланс для напоминания о балансе
   enablewaitlist [on/off] -- включить/выключить лист ожидания
   maxwaitlist <##> -- максимальный размер листа ожидания
   add <boostee> -- добавить персонажа в лист ожидания
-  blacklist <boostee> <reason> -- disable autoreplies for the boostee
-  remove blacklist <boostee> -- reenable autoreplies for the boostee
+  blacklist <boostee> <reason> -- отключить авто-ответ прокачиваемому
+  remove blacklist <boostee> -- включить авто-ответ прокачиваемому
   print waitlist -- напечатать лист ожидания
   print blacklist -- напечатать черный список
-  add <boostee> <waiting char> -- add player to waitlist manually
-  connect <boostee> <waiting char> -- update the waiting character name
+  add <boostee> <waiting char> -- добавить игрока в список ожидания
+  connect <boostee> <waiting char> -- обновить имя персонажа на котором сидят в ожидании прокачки
   break <time> -- перерыв до указанного времени
   break done -- вернуться с перерыва
-  sounds [on/off] -- enable or disable the sound triggers from waitlist signup
+  sounds [on/off] -- включить или выключить звук при добавлении в лист ожидания
   minimap [show/hide] -- настройка кнопки у мини-карты
-  add balance <boostee> <amount> -- add balance to the boostee's account
-  charge <boostee> -- add balance to the boostee's account
-  chargeall -- charge all boostees in the party
-  print balance <boostee> -- print boostee's current balance
-  reset balance <boostee> -- remove all balance related to boostee's account
-  inactivereply [on/off] -- enables/disables auto-replies while inactive.
-  inactivereplymessage <message> -- sets the inactive reply message
-  autobill [on/off] -- enables/disables auto-billing on instance reset.
+  add balance <boostee> <amount> -- добавить баланс персонажу
+  charge <boostee> -- списать с баланса стоимость прокачки
+  chargeall -- списать стоимость прокачки с каждого в группе
+  print balance <boostee> -- вывести баланс персонажа
+  reset balance <boostee> -- удалить баланс персонажа
+  inactivereply [on/off] -- включить или выключить авто-ответ когда прокачка не активна
+  inactivereplymessage <message> -- задать сообщение о неактивности прокачки
+  autobill [on/off] -- включить или выключить автосписание при сбросе подземелья
   ]]
 
 -- Chat messages. Keep'em short!
@@ -135,13 +135,13 @@ L["managerOnBreak"] = function(S)
 end
 L["requestWaitlistReply1"] = "Спасибо. Приглашу в группу как будет возможность. Используй команду '!line' для уточнения позиции в очереди."
 L["requestWaitlistReply2"] = function(S)
-  return 'If you want to log into a different character while waiting, just send me \'!waitlist ' .. S .. '\' from that character.'
+  return 'Если будешь ждать на другом персонаже - шепни мне \'!waitlist ' .. S .. '\' с этого персонажа.'
 end
-L["cancelRequestReply"] = "Спасибо. Запрос на прокачку удалён"
-L["updateWaitlistReply"] = "Thanks. I'll whisper you when I'm ready for you to log over."
+L["cancelRequestReply"] = "Спасибо. Запрос на прокачку удалён."
+L["updateWaitlistReply"] = "Спасибо. Я напишу, как надо будет заходить."
 L["whisperCommandHelp1"] = "!waitlist - запись на прокачку"
 L["whisperCommandHelp2"] = "!waitlist <alt name> - записать твинка на прокачку"
-L["whisperCommandHelp3"] = "!line - get current waitlist length"
+L["whisperCommandHelp3"] = "!line - очередь на прокачку"
 L["balanceCharged"] = function(C,B)
   return C .. 'г было списано за прокачу. Текущий баланс: ' .. B .. 'г.'
 end
@@ -169,10 +169,10 @@ L["whisperBoostReady"] = function(S,T)
   return 'Привет ' .. S .. ', готов прокачивать ' .. T ..'. Зайди на него и напиши мне \'!invite\' с персонажа ' .. T ..'.'
 end
 L["whisperInviteSent"] = function(T)
-  return 'Hi ' .. T ..', your invite for boosts has been sent.'
+  return 'Привет ' .. T ..', приглашаю на прокачку.'
 end
 L["whisperGetReadySender"] = function(S,T)
-  return 'Привет ' .. S ..', скоро буду готов прокачивать ' .. T .. '. Если ' .. T ..' далеко от подземелья  - уже им можешь выдвигаться.'
+  return 'Привет ' .. S ..', скоро буду готов прокачивать ' .. T .. '. Если ' .. T ..' далеко от подземелья  - уже можешь им выдвигаться.'
 end
 L["whisperGetReadyTarget"] = function(T)
   return 'Привет ' .. T .. ', скоро буду готов прокачивать тебя. Выдвигайся к подземелью, если ты далеко от него.'
@@ -182,7 +182,7 @@ L["whisperInviteFailedDeclined"] = "отказался";
 L["whisperInviteFailed"] = function(R)
   return 'Привет, приглашал тебя на прокачку, но ты ' .. R .. '. Напиши \'!invite\' для приглашения или \'!cancel\' для отмены.'
 end
-L["whipserInviteNotReady"] = "Sorry, I'm not ready to invite you for your boost just yet."
+L["whipserInviteNotReady"] = "Извини, пока не собираю."
 L["initialReply"] = "Привет!"
 L["whisperDone"] = "На сегодня всё. Извини, что не попал - постараюсь прокачать в следующий раз!"
 L["whisperInactive"] = "Спасибо за интерес к прокачке. Я пока не качаю."
