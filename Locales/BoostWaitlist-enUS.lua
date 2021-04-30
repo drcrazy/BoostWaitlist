@@ -1,36 +1,26 @@
 local L = LibStub("AceLocale-3.0"):NewLocale ("BoostWaitlist", "enUS", true) 
 if not L then return end 
 
---L["i'm cursed"] = true
---L["SpellTooltipFlashOFLight"] = "A quick expensive heal"
 L["addonLoading"] = "BoostWaitlist Addon Loading"
-
 L["setReply"] = "Your initial reply has been set."
 L["setReplyEmpty"] = "Your initial reply has been set to empty."
 L["setReplyTooLong"] = "Sorry, that reply is too long and will cause errors. Maximum 104 characters for this portion of the message."
-
 L["setDone"] = "Your done message has been set."
 L["setDoneEmpty"] = "Your done message was empty - the feature is now disabled."
 L["setDoneTooLong"] = "Sorry, that message is too long and will cause errors. Maximum 250 characters."
-
 L["inactiveReplyMessage"] = "Your inactive reply message has been set."
 L["inactiveReplyMessageEmpty"] = "Your inactive reply message has been set to empty."
 L["inactiveReplyMessageTooLong"] = "Sorry, that reply is too long and will cause errors. Maximum 200 characters for this portion of the message."
-
 L["inactiveReplyEnabled"] = "Enabling auto-replies when boostees appear to be asking for boosts while inactive."
 L["inactiveReplyDisabled"] = "Disabling auto-replies when boostees appear to be asking for boosts while inactive."
-
 L["autoBillingEnabled"] = "Enabling auto-billing on instance reset."
 L["autoBillingDisabled"] = "Disabling auto-billing on instance reset."
-
 L["waitlistEnabled"] = "Enabling waitlist features."
 L["waitlistDisabled"] = "Disabling waitlist features."
-
 L["setMaxWaitlist"] = function(S)
 	return 'Setting maximum number of boostees on waitlist to: ' .. S
 end
 L["setMaxWaitlistUsage"] = "Incorrect usage: /boost maxwaitlist <##>"
-
 L["balanceWhisperThresholdEnabled"] = "Enabling balance whisper threshold. Boostees will not be whispered until their balance meets"
 L["balanceWhisperThresholdValue"] = function(S)
   return S .. 'g.  /boost balancewhisperthreshold <##> to change this value.'
@@ -40,16 +30,12 @@ L["balanceWhisperThresholdSet"] = function(S)
   return 'Setting balance whisper threshold to: ' .. S
 end
 L["balanceWhisperThresholdUsage"] = "Incorrect usage: /boost balancewhisperthreshold <##>"
-
 L["statsEnabled"] = "Enabling stats features. (Not Yet Implemented)"
 L["statsDisabled"] = "Disabling stats features."
-
 L["soundEnabled"] = "Enabling sound triggers for waitlist signup"
 L["soundDisabled"] = "Disabling sound triggers for waitlist signup"
-
 L["setCost"] = "Cost changed successfully"
 L["setCostInvalid"] = "Invalid cost input"
-
 L["notInWaitlist"] = function(S)
   return S ..' is not in the waitlist right now'
 end
@@ -58,7 +44,6 @@ L["invalidAmount"] = "Invalid amount input"
 L["unsupportedCommand"] = function(S)
   return 'Unsupported input command: ' .. S
 end
-
 L["addonActivated"] = "BoostWaitlist addon activated"
 L["addonDeactivated"] = "BoostWaitlist addon deactivated"
 L["requestWaitlist"] = function(T,S)
@@ -90,10 +75,47 @@ L["tradeNotAdded"] = function(M,N)
 end
 L["tradeNotRefunded"] = function(M,N)
   return 'Saw trade of ' .. M .. 'c to ' .. N ..' but it didn\'t refund a balance.'
-L[""] =
-L[""] =
-L[""] =
-L[""] =
+  end
+L["inviteOther"] = function(T)
+  return 'BoostWaitlist - triggering invite on ' .. T ..' which doesn\'t have requestInfo'
+end
+L["getReadyOther"] = function(T)
+  return 'BoostWaitlist - triggering whisper on ' .. T .. ' which doesn\'t have requestInfo'
+end
+L["printWaitlist"] = "BoostWaitlist printing waitlist"
+L["printBlacklist"] = "BoostWaitlist printing blacklist"
+L["printUsage"] = [[Printing supported input commands (starting with /boost)"
+  on -- enable the addon
+  off -- disable the addon
+  gui -- open the gui (/boost also does this)
+  config -- open the conifguration panel
+  setreply <reply sentence> -- set the initial reply to send to whispers
+  reset -- reset all waitlist info
+  enablebalancewhisperthreshold [on/off] -- whisper balance only when threshold met
+  balancewhisperthreshold -- set the threshold to be met for whispers to be set
+  enablewaitlist [on/off] -- enable/disable waitlist features
+  maxwaitlist <##> -- set the maximum number of boosetees on the waitlist
+  add <boostee> -- add boostee to waitlist manually
+  blacklist <boostee> <reason> -- disable autoreplies for the boostee
+  remove blacklist <boostee> -- reenable autoreplies for the boostee
+  print waitlist -- output waitlist to terminal
+  print blacklist -- output blacklist to terminal
+  add <boostee> <waiting char> -- add player to waitlist manually
+  connect <boostee> <waiting char> -- update the waiting character name
+  break <time> -- take a break until time
+  break done -- back from the break
+  sounds [on/off] -- enable or disable the sound triggers from waitlist signup
+  minimap [show/hide] -- configure the minimap icon
+  add balance <boostee> <amount> -- add balance to the boostee's account
+  charge <boostee> -- add balance to the boostee's account
+  chargeall -- charge all boostees in the party
+  print balance <boostee> -- print boostee's current balance
+  reset balance <boostee> -- remove all balance related to boostee's account
+  inactivereply [on/off] -- enables/disables auto-replies while inactive.
+  inactivereplymessage <message> -- sets the inactive reply message
+  autobill [on/off] -- enables/disables auto-billing on instance reset.
+  ]]
+
 
 -- Chat messages. Keep'em short!
 L["waitlistFull"] = "I'm sorry, but the waitlist is currently full."
@@ -144,11 +166,27 @@ L["whisperEtaLength"] = function(N)
   return 'The line is currently ' .. N ..' players long.'
 end
 L["whisperEtaError"] = "Sorry, I can't tell what place you are in the waitlist right now. I may have had a disconnect, but I will handle things manually."
-L[""] =
-L[""] =
-L[""] =
-L[""] =
-L[""] =
+L["whisperBoostReady"] = function(S,T)
+  return 'Hi ' .. S .. ', the boosts you requested for ' .. T ..' are ready. Please log over and whisper me \'!invite\' from ' .. T ..'.'
+end
+L["whisperInviteSent"] = function(T)
+  return 'Hi ' .. T ..', your invite for boosts has been sent.'
+end
+L["whisperGetReadySender"] = function(S,T)
+  return 'Hi ' .. S ..', the boosts you requested for ' .. T .. ' will be ready soon. If ' .. T ..' isn\'t ready outside, then please start heading over here when you get a chance.'
+end
+L["whisperGetReadyTarget"] = function(T)
+  return 'Hi ' .. T .. ', I\'m almost ready to invite you for boosts. Please start heading over here when you get a chance.'
+end
+L["whisperInviteFailed"] = function(R)
+  return 'Hi, I tried to invite you for boosts but you ' .. R .. '. Reply with \'!invite\' to get another invite or \'!cancel\' to cancel your boosting request.'
+end
+L["whipserInviteNotReady"] = "Sorry, I'm not ready to invite you for your boost just yet."
+L["initialReply"] = "Thanks for your interest in my boosts."
+L["whisperDone"] = "Hey, I'm done boosting for now. Sorry you didn't get a chance to join - I'll try to get you in next time!"
+L["whisperInactive"] = "Thanks for your interest in my boosts, however, I'm currently inactive."
+
+
 
 
 

@@ -806,15 +806,12 @@ function Main:TriggerInvite(target)
   local requestInfo = Main:GetWaitlistInfo().requestsByTarget[target]
   if (requestInfo ~= nil) then
     if (requestInfo.sender ~= requestInfo.target) then
-      local rsp = "Hi "..requestInfo.sender..", the boosts you requested for "..target.." are ready. Please log over and whisper me '!invite' from "..target.."."
-      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, requestInfo.sender)
+      SimpleThrottle:SendChatMessage(L["whisperBoostReady"](requestInfo.sender, target), "WHISPER", nil, requestInfo.sender)
 
-      local rsp = "Hi "..target..", your invite for boosts has been sent."
-      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
+      SimpleThrottle:SendChatMessage(L["whisperInviteSent"](target), "WHISPER", nil, target)
       InviteUnit(target)
     else
-      local rsp = "Hi "..target..", your invite for boosts has been sent."
-      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
+      SimpleThrottle:SendChatMessage(L["whisperInviteSent"](target), "WHISPER", nil, target)
       InviteUnit(target)
     end
     if (Main.groupRoster[target]) then
@@ -824,7 +821,7 @@ function Main:TriggerInvite(target)
     end
     GUI:Update()
   else
-    print("BoostWaitlist - triggering invite on "..target.." which doesn't have requestInfo")
+    print(L["inviteOther"](target))
   end
 end
 
@@ -832,21 +829,18 @@ function Main:GetReadyWhisper(target)
   local requestInfo = Main:GetWaitlistInfo().requestsByTarget[target]
   if (requestInfo ~= nil) then
     if (requestInfo.sender ~= requestInfo.target) then
-      local rsp = "Hi "..requestInfo.sender..", the boosts you requested for "..target.." will be ready soon. If "..target.." isn't ready outside, then please start heading over here when you get a chance."
-      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, requestInfo.sender)
+      SimpleThrottle:SendChatMessage(L["whisperGetReadySender"](requestInfo.sender, target), "WHISPER", nil, requestInfo.sender)
     end
-    local rsp = "Hi "..target..", I'm almost ready to invite you for boosts. Please start heading over here when you get a chance."
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
+    SimpleThrottle:SendChatMessage(L["whisperGetReadyTarget"](target), "WHISPER", nil, target)
   else
-    print("BoostWaitlist - triggering whisper on "..target.." which doesn't have requestInfo")
+    print(L["getReadyOther"](target))
   end
 end
 
 function Main:HandleInviteFail(player, reason)
   local requestInfo = Main:GetWaitlistInfo().requestsByTarget[player]
   if (requestInfo ~= nil) then
-    local rsp = "Hi, I tried to invite you for boosts but you "..reason..". Reply with '!invite' to get another invite or '!cancel' to cancel your boosting request."
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, player)
+    SimpleThrottle:SendChatMessage(L["whisperInviteFailed"](reason), "WHISPER", nil, player)
   end
 end
 
@@ -855,8 +849,7 @@ function Main:HandleInviteRequest(player)
   if ((state == "INVITED") or (state == "INRAID")) then
     InviteUnit(player)
   else
-    local rsp = "Sorry, I'm not ready to invite you for your boost just yet."
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, player)
+    SimpleThrottle:SendChatMessage(L["whipserInviteNotReady"], "WHISPER", nil, player)
   end
 end
 
@@ -936,50 +929,21 @@ end
 
 function Main:PrintWaitlist()
   local waitlist = Main:GetWaitlistInfo().waitlist
-  print("BoostWaitlist printing waitlist")
+  print(L["printWaitlist"])
   for i=1,#waitlist do 
     print("  "..waitlist[i].target.." - "..waitlist[i].sender)
   end
 end
 
 function Main:PrintBlacklist()
-  print("BoostWaitlist printing blacklist")
+  print(L["printBlacklist"])
   for k,v in pairs(DB.blacklist) do
     print("  "..k.." - "..v)
   end
 end
 
 function Main:PrintUsage()
-  print("Printing supported input commands (starting with /boost)")
-  print("  on -- enable the addon")
-  print("  off -- disable the addon")
-  print("  gui -- open the gui (/boost also does this)")
-  print("  config -- open the conifguration panel")
-  print("  setreply <reply sentence> -- set the initial reply to send to whispers")
-  print("  reset -- reset all waitlist info")
-  print("  enablebalancewhisperthreshold [on/off] -- whisper balance only when threshold met")
-  print("  balancewhisperthreshold -- set the threshold to be met for whispers to be set")
-  print("  enablewaitlist [on/off] -- enable/disable waitlist features")
-  print("  maxwaitlist <##> -- set the maximum number of boosetees on the waitlist")
-  print("  add <boostee> -- add boostee to waitlist manually")
-  print("  blacklist <boostee> <reason> -- disable autoreplies for the boostee")
-  print("  remove blacklist <boostee> -- reenable autoreplies for the boostee")
-  print("  print waitlist -- output waitlist to terminal")
-  print("  print blacklist -- output blacklist to terminal")
-  print("  add <boostee> <waiting char> -- add player to waitlist manually")
-  print("  connect <boostee> <waiting char> -- update the waiting character name")
-  print("  break <time> -- take a break until time")
-  print("  break done -- back from the break")
-  print("  sounds [on/off] -- enable or disable the sound triggers from waitlist signup")
-  print("  minimap [show/hide] -- configure the minimap icon")
-  print("  add balance <boostee> <amount> -- add balance to the boostee's account")
-  print("  charge <boostee> -- add balance to the boostee's account")
-  print("  chargeall -- charge all boostees in the party")
-  print("  print balance <boostee> -- print boostee's current balance")
-  print("  reset balance <boostee> -- remove all balance related to boostee's account")
-  print("  inactivereply [on/off] -- enables/disables auto-replies while inactive.")
-  print("  inactivereplymessage <message> -- sets the inactive reply message")
-  print("  autobill [on/off] -- enables/disables auto-billing on instance reset.")
+  print(L["printUsage"])
 end
 
 -- Helper functions
