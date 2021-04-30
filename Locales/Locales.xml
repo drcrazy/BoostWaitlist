@@ -1,0 +1,10 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Script file="BoostWaitlist-enUS.lua"/>
+    <Script file="BoostWaitlist-deDE.lua"/>
+    <Script file="BoostWaitlist-esES.lua"/>
+    <Script file="BoostWaitlist-frFR.lua"/>
+    <Script file="BoostWaitlist-ptBR.lua"/>
+    <Script file="BoostWaitlist-ruRU.lua"/>
+    <Script file="BoostWaitlist-zhCN.lua"/>
+</Ui>

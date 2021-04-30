@@ -7,10 +7,14 @@
 
 Libs\LibStub\LibStub.lua
 Libs\StdUi\StdUi.xml
-embeds.xml
-BoostWaitlistDB.lua
+
+Locales\Locales.xml
+
 Utils\SimpleThrottle.lua
 Utils\UIBuilder.lua
+
+embeds.xml
+BoostWaitlistDB.lua
 BoostWaitlistGUI.lua
 BoostWaitlist.lua
 Options.lua

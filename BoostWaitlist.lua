@@ -1,4 +1,5 @@
 local addonName, addon = ...
+local L = LibStub("AceLocale-3.0"):GetLocale("BoostWaitlist", true)
 
 -- Create saved global vars
 _G.BoostWaitlistDB = _G.BoostWaitlistDB or {}
@@ -25,7 +26,7 @@ BoostWaitlistEvent:RegisterEvent("UNIT_NAME_UPDATE")
 -- Main event handler function
 local function eventHandler(self, event, arg1, arg2, ...)
   if ((event == "ADDON_LOADED") and (arg1 == "BoostWaitlist")) then
-    print("BoostWaitlist Addon Loading")
+    print(L["addonLoading"])
     Main:Init()
   elseif (event == "CHAT_MSG_WHISPER") then
     if (DB.active) then
@@ -99,46 +100,46 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
     cmd = {strsplit(" ", msg, 2)}
     if (cmd[2] == nil) then
       DB.initialReply = ""
-      print("Your initial reply has been set to empty.")
+      print(L["setReplyEmpty"])
     elseif (strlen(cmd[2]) < 105) then
       DB.initialReply = cmd[2]
-      print("Your initial reply has been set.")
+      print(L["setReply"])
     else
-      print("Sorry, that reply is too long and will cause errors. Maximum 104 characters for this portion of the message.")
+      print(L["setReplyTooLong"])
     end
     used = 1
   elseif (cmd[1] == "setdonemessage") then
     cmd = {strsplit(" ", msg, 2)}
     if (cmd[2] == nil) then
       DB.doneMessage = ""
-      print("Your done message was empty - the feature is now disabled.")
+      print(L["setDoneEmpty"])
     elseif (strlen(cmd[2]) < 250) then
       DB.doneMessage = cmd[2]
-      print("Your done message has been set.")
+      print(L["setDone"])
     else
-      print("Sorry, that message is too long and will cause errors. Maximum 250 characters.")
+      print(L"setDoneTooLong")
     end
     used = 1
   elseif (cmd[1] == "inactivereplymessage") then
     cmd = {strsplit(" ", msg, 2)}
     if (cmd[2] == nil) then
       DB.inactivereplymsg = ""
-      print("Your inactive reply message has been set to empty.")
+      print(L["inactiveReplyMessageEmpty"])
     elseif (strlen(cmd[2]) < 201) then
       DB.inactivereplymsg = cmd[2]
-      print("Your inactive reply message has been set.")
+      print(L["inactiveReplyMessage"])
     else
-      print("Sorry, that reply is too long and will cause errors. Maximum 200 characters for this portion of the message.")
+      print(L["inactiveReplyMessageTooLong"])
     end
     used = 1
   elseif (cmd[1] == "inactivereply") then
     if (cmd[2] == "on") then
       DB.inactivereply = true
-      print("Enabling auto-replies when boostees appear to be asking for boosts while inactive.")
+      print(L["inactiveReplyEnabled"])
       used = 1
     elseif (cmd[2] == "off") then
       DB.inactivereply = false
-      print("Disabling auto-replies when boostees appear to be asking for boosts while inactive.")
+      print(L["inactiveReplyDisabled"])
       used = 1
     end
   elseif (#cmd == 1) then
@@ -199,80 +200,80 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
     elseif (cmd[1] == "autobill") then
       if (cmd[2] == "on") then
         DB.autobill = true
-        print("Enabling auto-billing on instance reset.")
+        print(L["autoBillingEnabled"])
         GUI:Update()
         used = 1
       elseif (cmd[2] == "off") then
         DB.autobill = false
-        print("Disabling auto-billing on instance reset.")
+        print(L["autoBillingDisabled"])
         GUI:Update()
         used = 1
       end
     elseif (cmd[1] == "enablewaitlist") then
       if (cmd[2] == "on") then
         DB.enableWaitlist = true
-        print("Enabling waitlist features.")
+        print(L["waitlistEnabled"])
         used = 1
       elseif (cmd[2] == "off") then
         DB.enableWaitlist = false
-        print("Disabling waitlist features.")
+        print(L["waitlistDisabled"])
         used = 1
       end
     elseif (cmd[1] == "maxwaitlist") then
         if (tonumber(cmd[2]) ~= nil) then
           DB.maxWaitlist = cmd[2]
-          print("Setting maximum number of boostees on waitlist to: " .. cmd[2])
+          print(L["setMaxWaitlist"](cmd[2]))
         else
-          print("Incorrect usage: /boost maxwaitlist <##>")
+          print(L["setMaxWaitlistUsage"])
         end
         used = 1
     elseif (cmd[1] == "enablebalancewhisperthreshold") then
       if (cmd[2] == "on") then
         DB.enableBalanceWhisperThreshold = true
-        print("Enabling balance whisper threshold. Boostees will not be whispered until their balance meets")
-        print(DB.balanceWhisperThreshold .. "g.  /boost balancewhisperthreshold <##> to change this value.")
+        print(L["balanceWhisperThresholdEnabled"])
+        print(L["balanceWhisperThresholdValue"](DB.balanceWhisperThreshold))
         used = 1
       elseif (cmd[2] == "off") then
         DB.enableBalanceWhisperThreshold = false
-        print("Disabling balance whisper threshold features.  Boostees will recieve whispers every time they are billed.")
+        print(L["balanceWhisperThresholdDisabled"] )
         used = 1
       end
     elseif (cmd[1] == "balancewhisperthreshold") then
       if (tonumber(cmd[2]) ~= nil) then
         DB.balanceWhisperThreshold = cmd[2]
-        print("Setting balance whisper threshold to: " .. cmd[2])
+        print(L["balanceWhisperThresholdSet"](cmd[2]))
       else
-        print("Incorrect usage: /boost balancewhisperthreshold <##>")
+        print(L["balanceWhisperThresholdUsage"])
       end
       used = 1
     elseif (cmd[1] == "enablestats") then
       if (cmd[2] == "on") then
         DB.enableStats = true
-        print("Enabling stats features. (Not Yet Implemented)")
+        print(L["statsEnabled"])
         used = 1
       elseif (cmd[2] == "off") then
         DB.enableStats = false
-        print("Disabling stats features.")
+        print(L["statsDisabled"])
         used = 1
       end
     elseif (cmd[1] == "sounds") then
       if (cmd[2] == "on") then
         DB.enableSounds = true
-        print("Enabling sound triggers for waitlist signup")
+        print(L["soundEnabled"])
         used = 1
       elseif (cmd[2] == "off") then
         DB.enableSounds = false
-        print("Disabling sound triggers for waitlist signup")
+        print(L["soundDisabled"])
         used = 1
       end
     elseif (cmd[1] == "setcost") then
       local cost = tonumber(cmd[2])
       if (cost ~= nil) then
         DB.cost = cost
-        print("Cost changed successfully")
+        print(L["setCost"])
         GUI:Update()
       else
-        print("Invalid cost input")
+        print(L["setCostInvalid"])
       end
       used = 1
     elseif (cmd[1] == "charge") then
@@ -298,7 +299,7 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
       if (Main:InWaitlist(strlower(cmd[2]):gsub("^%l", string.upper))) then
         Main:UpdateWaitlistSender(strlower(cmd[3]):gsub("^%l", string.upper), strlower(cmd[2]):gsub("^%l", string.upper))
       else
-        print(cmd[2].." isn't in the waitlist right now")
+        print(L["notInWaitlist"](cmd[2]))
       end
       used = 1
     elseif (cmd[1] == "add") then
@@ -327,14 +328,14 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
         if (amount ~= nil) then
           Main:AddBalance(strlower(cmd[3]):gsub("^%l", string.upper), amount)
         else
-          print("Invalid amount input")
+          print(L["invalidAmount"])
 	end
         used = 1
       end
     end
   end
   if (used == 0) then
-    print("Unsupported input command: "..msg)
+    print(L["unsupportedCommand"](msg))
     Main:PrintUsage()
   end
 end
@@ -388,7 +389,7 @@ end
 
 function Main:HandleAddonOn()
   DB.name = UnitName("player")
-  print("BoostWaitlist addon activated")
+  print(L["addonActivated"])
   DB.active = true
   Main.groupRoster = {}
   Main:HandleGroupRosterUpdate()
@@ -399,7 +400,7 @@ function Main:HandleAddonOn()
 end
 
 function Main:HandleAddonOff()
-  print("BoostWaitlist addon deactivated")
+  print(L["addonDeactivated"])
   DB.active = false
   if ((#Main:GetWaitlistInfo().waitlist > 0) and (DB.doneMessage ~= "")) then
     GUI:ShowPopupFrame("DONE_BOOSTING")
@@ -434,8 +435,7 @@ function Main:HandleWhisperCommand(msg, sender)
     if (DB.enableWaitlist and DB.maxWaitlist > #DB.waitlistInfo.waitlist) then
       Main:RequestWaitlistFromWhisper(sender, sender)
     else
-      local rsp = "I'm sorry, but the waitlist is currently full."
-      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
+      SimpleThrottle:SendChatMessage(L["waitlistFull"], "WHISPER", nil, sender)
     end
   elseif (lc_msg:find("wait") == 2) then
     if (DB.enableWaitlist and DB.maxWaitlist > #DB.waitlistInfo.waitlist) then
@@ -449,14 +449,11 @@ function Main:HandleWhisperCommand(msg, sender)
 
         Main:RequestWaitlistFromWhisper(sender, main)
       else
-        local rsp = "The format for this command is: !waitlist <alt name>"
-        SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
-        rsp = "For example, !waitlist Tekkie"
-        SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
+        SimpleThrottle:SendChatMessage(L["waitlistExample1"], "WHISPER", nil, sender)
+        SimpleThrottle:SendChatMessage(L["waitlistExample2"], "WHISPER", nil, sender)
       end
     else
-      local rsp = "I'm sorry, but the waitlist is currently full."
-      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
+      SimpleThrottle:SendChatMessage(L["waitlistFull"], "WHISPER", nil, sender, true)
     end
   elseif (lc_msg:find("canc") == 2) then
     Main:RemoveWaitlist(sender)
@@ -469,8 +466,7 @@ function Main:HandleWhisperCommand(msg, sender)
   elseif (lc_msg:find("comm") == 2) then
     Main:WhisperCommands(sender)
   else
-    local rsp = "Sorry, that command is not supported."
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender)
+    SimpleThrottle:SendChatMessage(L["unsupportedCommandShort"], "WHISPER", nil, sender)
     Main:WhisperCommands(sender)
   end
 end
@@ -478,22 +474,20 @@ end
 function Main:StartConv(sender)
   local groupFormSentence = ""
   if (DB.forming) then
-    groupFormSentence = "I'm still forming the group, so you could get into my first run."
+    groupFormSentence = L["groupForming"]
   else
     local num = Main:GetCardinalNumber(#Main:GetWaitlistInfo().waitlist + 1)
     -- 63 chars + 2 for num
-    groupFormSentence = "The group is full right now, and you would be "..num.." in the waitlist."
+    groupFormSentence = L["groupFull"](num)
   end
   -- 81 chars
-  local rsp = DB.initialReply.." "..groupFormSentence.." Reply with '!waitlist' to get put on the waitlist, or '!commands' for more info."
-  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
+  SimpleThrottle:SendChatMessage(L["groupFormSentence"](DB.initialReply, groupFormSentence), "WHISPER", nil, sender, true)
   Main:SetConvState(sender, "STARTED")
 end
 
 function Main:RequestWaitlistFromWhisper(sender, target)
   if (Main.managerOnBreak) then
-    local rsp = "Sorry, I'm taking a break right now. I expect to be back at "..Main.managerBreakEndTime.."."
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender) 
+    SimpleThrottle:SendChatMessage(L["managerOnBreak"](Main.managerBreakEndTime), "WHISPER", nil, sender) 
   else
     if (not Main:InWaitlist(target)) then
       Main:SetConvState(target, "STARTED")
@@ -539,12 +533,10 @@ function Main:RequestWaitlist(sender, target)
   if (DB.enableSounds) then
     PlaySound(8960)
   end
-  print("Waitlist request for "..target.." from "..sender)
+  print(L["requestWaitlist"](target, sender)
 
-  local rsp = "Thanks. A group invite will be sent as soon as I'm ready. You can reply '!line' to see your place in the waitlist."
-  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
-  rsp = "If you want to log into a different character while waiting, just send me '!waitlist "..target.."' from that character."
-  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
+  SimpleThrottle:SendChatMessage(L["requestWaitlistReply1"], "WHISPER", nil, sender, true)
+  SimpleThrottle:SendChatMessage(L["requestWaitlistReply2"](target), "WHISPER", nil, sender, true)
 
   GUI:Update()
 end
@@ -571,10 +563,8 @@ function Main:RemoveWaitlist(sender, silent)
       if (DB.enableSounds) then
         PlaySound(8959)
       end
-      print("Cancel request for "..target.." from "..sender)
-
-      local rsp = "Thanks. I'll cancel your request to join my boosts."
-      SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
+      print(L["cancelRequest"](target, sender))
+      SimpleThrottle:SendChatMessage(L["cancelRequestReply"], "WHISPER", nil, sender, true)
     end
     
     GUI:Update()
@@ -585,14 +575,13 @@ function Main:UpdateWaitlistSender(sender, target)
   local waitlistInfo = Main:GetWaitlistInfo()
   local requestInfo = waitlistInfo.requestsByTarget[target]
 
-  print("Updating waitlist sender = "..sender.." target = "..target)
+  print(L["updateWaitlist"](target, sender))
   waitlistInfo.requestsBySender[requestInfo.sender] = nil
   waitlistInfo.requestsBySender[sender] = requestInfo
   requestInfo.sender = sender
 
   if (sender ~= target) then
-    local rsp = "Thanks. I'll whisper you when I'm ready for you to log over."
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, sender, true)
+    SimpleThrottle:SendChatMessage(L["updateWaitlistReply"], "WHISPER", nil, sender, true)
   end
 
   GUI:Update()
@@ -613,9 +602,9 @@ end
 
 function Main:WhisperCommands(target)
   local rsps = {}
-  table.insert(rsps, "!waitlist - sign up for boosts")
-  table.insert(rsps, "!waitlist <alt name> - sign up to get boosts while waiting on a different character")
-  table.insert(rsps, "!line - get current waitlist length")
+  table.insert(rsps, L["whisperCommandHelp1"])
+  table.insert(rsps, L["whisperCommandHelp2"])
+  table.insert(rsps, L["whisperCommandHelp3"])
   for i=1,#rsps do
     SimpleThrottle:SendChatMessage(rsps[i], "WHISPER", nil, target, true)
   end
@@ -646,14 +635,12 @@ function Main:ChargeBalance(name, noUpdateGui)
   local c = DB.overrideCharge[name] or DB.cost
   DB.accountBalance[name] = (DB.accountBalance[name] or 0) - c
   if (DB.accountBalance[name] < 0) then
-    print(name.." now has a negative account balance: "..DB.accountBalance[name].."g")
+    print(L["balanceNegative"](name, DB.accountBalance[name]))
   end
   if (not DB.enableBalanceWhisperThreshold) then
-    local rsp = c.."g was charged for your boost. New balance: "..DB.accountBalance[name].."g"
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
+    SimpleThrottle:SendChatMessage(L["balanceCharged"](c, DB.accountBalance[name]), "WHISPER", nil, name)
   elseif (DB.accountBalance[name] < DB.balanceWhisperThreshold) then
-    local rsp = "Your current balance has changed. New balance: "..DB.accountBalance[name].."g"
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
+    SimpleThrottle:SendChatMessage(L["balance"](DB.accountBalance[name]), "WHISPER", nil, name)
   end
   if (DB.accountBalance[name] == 0 ) then DB.accountBalance[name] = nil end
   if (not noUpdateGui) then
@@ -664,10 +651,10 @@ end
 function Main:SetOverrideDefaultCharge(name, amount)
   local a
   if (DB.cost == amount) then
-    print('BoostWaitlist - Removing override for '..name)
+    print(L["overrideRemove"](name))
     a = nil
   else
-    print('BoostWaitlist - Setting override for '..name..' to '..amount..'g. Set to default charge amount to remove.')
+    print(L["overrideSet"](name, amount))
     a = amount
   end
   DB.overrideCharge[name] = a
@@ -678,13 +665,10 @@ function Main:GetOverrideDefaultCharge(name)
   return DB.overrideCharge[name]
 end
 
-
-
 function Main:AddBalance(name, amount)
   DB.accountBalance[name] = (DB.accountBalance[name] or 0) + amount
   GUI:Update()
-  local rsp = amount.."g was added to your balance. New balance: "..DB.accountBalance[name].."g"
-  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
+  SimpleThrottle:SendChatMessage(L["addBalance"](amount, DB.accountBalance[name]), "WHISPER", nil, name)
 
   if (DB.accountBalance[name] == 0 ) then DB.accountBalance[name] = nil end
 end
@@ -692,8 +676,7 @@ end
 function Main:RefundBalance(name, amount)
   DB.accountBalance[name] = (DB.accountBalance[name] or 0) - amount
   GUI:Update()
-  local rsp = amount.."g was refunded from your balance. New balance: "..DB.accountBalance[name].."g"
-  SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
+  SimpleThrottle:SendChatMessage(L["refundBalance"](amount, DB.accountBalance[name]), "WHISPER", nil, name)
 end
 
 function Main:GetBalance(name)
@@ -710,21 +693,19 @@ function Main:BalanceExists(name)
 end
 
 function Main:ResetBalance(name)
-  print("Resetting "..name.."'s balance. Prior balance: "..DB.accountBalance[name].."g")
+  print(L["resetBalance"](name, DB.accountBalance[name]))
   DB.accountBalance[name] = nil
 end
 
 function Main:PrintBalance(name)
-  print(name.."'s current balance is: "..Main:GetBalance(name).."g")
+  print(L["printBalance"](name, Main:GetBalance(name)))
 end
 
 function Main:WhisperBalance(name)
   if (DB.accountBalance[name] ~= nil) then
-    local rsp = "Current balance: "..DB.accountBalance[name].."g"
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
+    SimpleThrottle:SendChatMessage(L["whisperBalance"](DB.accountBalance[name]), "WHISPER", nil, name)
   else
-    local rsp = "No active balance is being tracked for your character."
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, name)
+    SimpleThrottle:SendChatMessage(L["whisperBalanceMissing"], "WHISPER", nil, name)
   end
 end
 
@@ -749,9 +730,9 @@ function Main:HandleUIInfoMessage(msg)
     elseif ((Main.playerTradeMoney > 9999)) then
       Main:RefundBalance(Main.tradeName, Main.playerTradeMoney / 10000)
     elseif (Main.tradeMoney > 0) then
-      print("Saw trade of "..Main.tradeMoney.."c from "..Main.tradeName.." but it wasn't added to a balance.")
+      print(L["tradeNotAdded"](Main.tradeMoney, Main.tradeName))
     elseif (Main.playerTradeMoney > 0) then
-      print("Saw trade of "..Main.playerTradeMoney.."c to "..Main.tradeName.." but it didn't refund a balance.")
+      print(L["tradeNotRefunded"](Main.playerTradeMoney, Main.tradeName))
     end
     Main.tradeName = "Unknown"
     Main.tradeMoney = 0
@@ -791,16 +772,14 @@ function Main:WhisperEta(target)
   local etaInfo = Main:GetETAInfo(false, target)
 
   if (etaInfo.lineSpot ~= nil) then
-    local rsp
     if (etaInfo.inLine ~= nil) then
-      rsp = "You are currently "..Main:GetCardinalNumber(etaInfo.lineSpot).." in the waitlist."
+      SimpleThrottle:SendChatMessage(L["whisperEtaPosition"](Main:GetCardinalNumber(etaInfo.lineSpot)), "WHISPER", nil, target, true)
     else
-      rsp = "The line is currently "..etaInfo.lineSpot.." players long."
+      SimpleThrottle:SendChatMessage(L["whisperEtaLength"](etaInfo.lineSpot), "WHISPER", nil, target, true)
     end
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target, true)
+    
   else
-    local rsp = "Sorry, I can't tell what place you are in the waitlist right now. I may have had a disconnect, but I will handle things manually."
-    SimpleThrottle:SendChatMessage(rsp, "WHISPER", nil, target)
+    SimpleThrottle:SendChatMessage(L["whisperEtaError"], "WHISPER", nil, target)
   end
 end
 
