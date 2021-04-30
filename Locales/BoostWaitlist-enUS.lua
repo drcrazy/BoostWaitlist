@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale ("BoostWaitlist", "enUS", true) 
+local L = LibStub("AceLocale-3.0"):NewLocale ("BoostWaitlist", "enUS", true, false) 
 if not L then return end 
 
 L["addonLoading"] = "BoostWaitlist Addon Loading"
