@@ -136,7 +136,7 @@ L["managerOnBreak"] = function(S)
 end
 L["requestWaitlistReply1"] = "Thanks. A group invite will be sent as soon as I'm ready. You can reply '!line' to see your place in the waitlist."
 L["requestWaitlistReply2"] = function(S)
-  return 'If you want to log into a different character while waiting, just send me "!waitlist ' .. S . '" from that character.'
+  return 'If you want to log into a different character while waiting, just send me \'!waitlist ' .. S .. '\' from that character.'
 end
 L["cancelRequestReply"] = "Thanks. I'll cancel your request to join my boosts."
 L["updateWaitlistReply"] = "Thanks. I'll whisper you when I'm ready for you to log over."
