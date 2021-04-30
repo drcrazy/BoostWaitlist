@@ -177,8 +177,10 @@ end
 L["whisperGetReadyTarget"] = function(T)
   return 'Привет ' .. T .. ', скоро буду готов прокачивать тебя. Выдвигайся к подземелью, если ты далеко от него.'
 end
+L["whisperInviteFailedInGroup"] = "уже в группе";
+L["whisperInviteFailedDeclined"] = "отказался";
 L["whisperInviteFailed"] = function(R)
-  return 'Hi, I tried to invite you for boosts but you ' .. R .. '. Reply with \'!invite\' to get another invite or \'!cancel\' to cancel your boosting request.'
+  return 'Привет, приглашал тебя на прокачку, но ты ' .. R .. '. Напиши \'!invite\' для приглашения или \'!cancel\' для отмены.'
 end
 L["whipserInviteNotReady"] = "Sorry, I'm not ready to invite you for your boost just yet."
 L["initialReply"] = "Привет!"

@@ -786,13 +786,13 @@ end
 -- Group/Raid functions
 
 function Main:HandleSystemMessage(msg)
-  local head, tail, player = string.find(msg, "(.+) is already in a group.")
+  local head, tail, player = string.find(msg, string.gsub(ERR_ALREADY_IN_GROUP_S, "%%s", "(%%S+)"))
   if (head and not Main.groupRoster[player]) then
-    Main:HandleInviteFail(player, "are in a group")
+    Main:HandleInviteFail(player, L["whisperInviteFailedInGroup"])
   else
-    head, tail, player = string.find(msg, "(.+) declines your group invitation.")
+    head, tail, player = string.find(msg, string.gsub(ERR_DECLINE_GROUP_S, "%%s", "(%%S+)"))
     if (head) then
-      Main:HandleInviteFail(player, "declined")
+      Main:HandleInviteFail(player, L["whisperInviteFailedDeclined"])
     else
       head, tail, player = string.find(msg, "Cannot find '(.+)'.")
       if (head) then

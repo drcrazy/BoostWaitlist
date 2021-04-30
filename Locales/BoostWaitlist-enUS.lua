@@ -178,6 +178,8 @@ end
 L["whisperGetReadyTarget"] = function(T)
   return 'Hi ' .. T .. ', I\'m almost ready to invite you for boosts. Please start heading over here when you get a chance.'
 end
+L["whisperInviteFailedInGroup"] = "are in a group";
+L["whisperInviteFailedDeclined"] = "declined";
 L["whisperInviteFailed"] = function(R)
   return 'Hi, I tried to invite you for boosts but you ' .. R .. '. Reply with \'!invite\' to get another invite or \'!cancel\' to cancel your boosting request.'
 end
