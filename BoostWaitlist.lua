@@ -533,7 +533,7 @@ function Main:RequestWaitlist(sender, target)
   if (DB.enableSounds) then
     PlaySound(8960)
   end
-  print(L["requestWaitlist"](target, sender)
+  print(L["requestWaitlist"](target, sender))
 
   SimpleThrottle:SendChatMessage(L["requestWaitlistReply1"], "WHISPER", nil, sender, true)
   SimpleThrottle:SendChatMessage(L["requestWaitlistReply2"](target), "WHISPER", nil, sender, true)

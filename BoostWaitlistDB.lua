@@ -1,6 +1,7 @@
 ------------------------------------
 -- BoostWaitlist Beta (3/11/2020)
 ------------------------------------
+local L = LibStub("AceLocale-3.0"):GetLocale("BoostWaitlist", true)
 
 _G.BoostWaitlistDBDefaults = {
   Main = {
