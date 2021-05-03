@@ -188,9 +188,49 @@ L["initialReply"] = "Thanks for your interest in my boosts."
 L["whisperDone"] = "Hey, I'm done boosting for now. Sorry you didn't get a chance to join - I'll try to get you in next time!"
 L["whisperInactive"] = "Thanks for your interest in my boosts, however, I'm currently inactive."
 
+-- GUI. Interface!
+L["Autobill"] = true
+L["AutobillTooltip"] = "Automatically bill all players when instance reset is detected."
+L["ChargeAll"] = "Charge All"
+L["DefaultPrice"] = "Default Price:"
+L["MinimapTooltipLeft"] = "LeftClick to open/close the BoostWaitlist GUI"
+L["MinimapTooltipRight"] = "RightClick to activate BoostWaitlist"
+L["MinimapTooltipSRight"] = "Shift+RightClick to open config panel"
+L["DoneBoosting"] = "DONE_BOOSTING"
+L["Forming"] = true
+L["Full"] = true
+L["Waitlist"] = true
+L["WaitingOn"] = "Waiting On"
+L["Actions"] = true
+L["Remove"] = true
+L["Invite"] = true
+L["Whisper"] = true
+L["Name"] = true
+L["Bal"] = true
+L["Cost"] = true
+L["Trade"] = true
+L["Add"] = true
+L["Charge"] = true
 
-
-
-
-
-
+-- GUI. Option!
+L["General"] = true
+L["EminimapIcon"] = "Enable minimap icon"
+L["EminimapIconTT"] = "Show BoostWaitlist button around minimap."
+L["EStats"] = "Enable stats (NYI)"
+L["EStatsTT"] = "Collect and display gold/hr and XP/hr for boostees after each reset.  (NOT YET IMPLEMENTED)"
+L["BalanceWhisperThreshold"] = "Enable balance whisper threshold"
+L["BalanceWhisperThresholdTT"] = "To help reduce spam, only whisper boostees when their balance exceeds gold threshold."
+L["GThreshold"] = "Gold Threshold"
+L["GThresholdTT"] = "Gold threshold to meet before whispering balance."
+L["EAutobill"] = "Enable Autobill on instance reset"
+L["EAutobillTT"] = "Automatically bill all players when instance reset is detected."
+L["ESounds"] = "Play waitlist sounds"
+L["ESoundsTT"] = "Play sounds when players are added or removed from the waitlist."
+L["EWaitlist"] = "Enable waitlist"
+L["EWaitlistTT"] = "Respond to whispers encouraging players to queue for your services."
+L["MWaitlist"] = "Max Waitlist"
+L["MWaitlistTT"] = "Maximum number of boostees on waitlist before addon stops responding."
+L["Player Database"] = true
+L["Balance"] = true
+L["Override"] = true
+L["Blacklist"] = true

@@ -1,3 +1,5 @@
+local L = LibStub("AceLocale-3.0"):GetLocale("BoostWaitlist", true)
+
 local addonName, addon = ...
 
 -- Create local vars
@@ -36,9 +38,9 @@ end
 
 local waitlistTableCols = {
   {
-    name = 'Waitlist',
-    width = 130,
-    align = 'LEFT',
+    name = L["Waitlist"],
+    width = 115,
+    align = 'CENTER',
     format = 'string',
     index = 'target',
     sortable = true,
@@ -48,9 +50,9 @@ local waitlistTableCols = {
     color = {r=1,g=1,b=1,a=1}
   },
   {
-    name = 'Waiting On',
+    name = L["WaitingOn"],
     width = 115,
-    align = 'LEFT',
+    align = 'CENTER',
     format = 'string',
     index = 'sender',
     sortable = true,
@@ -60,9 +62,9 @@ local waitlistTableCols = {
     color = {r=1,g=1,b=1,a=1}
   },
   {
-    name = 'Actions',
-    width = 170,
-    align = 'RIGHT',
+    name = L["Actions"],
+    width = 190,
+    align = 'CENTER',
     format = 'custom',
     index = 'time',
     sortable = false,
@@ -73,7 +75,7 @@ local waitlistTableCols = {
 
                   if (cellFrame.buttonFrame == nil) then
                     local buttonFrame = CreateFrame("Frame", nil, cellFrame)
-                    buttonFrame:SetWidth(150)
+                    buttonFrame:SetWidth(185)
                     buttonFrame:SetHeight(20)
 
                     buttonFrame:SetPoint("RIGHT", cellFrame, "RIGHT", -1, 0)
@@ -81,19 +83,19 @@ local waitlistTableCols = {
                   end
 
                   if (cellFrame.remove == nil) then
-                      cellFrame.remove = UIBuilder:TextButton(cellFrame, 'Remove', 50, 20)
+                      cellFrame.remove = UIBuilder:TextButton(cellFrame, L["Remove"], 60, 20)
                       -- cellFrame.remove:SetPoint('RIGHT', cellFrame, 'RIGHT', -1, 0)
                       cellFrame.remove:SetPoint('RIGHT', cellFrame.buttonFrame, 'RIGHT', 0, 0)
                   end
 
                   if (cellFrame.invite == nil) then
-                      cellFrame.invite = UIBuilder:TextButton(cellFrame, 'Invite', 50, 20)
+                      cellFrame.invite = UIBuilder:TextButton(cellFrame, L["Invite"], 60, 20)
                       -- cellFrame.invite:SetPoint('RIGHT', cellFrame.remove, 'LEFT', -1.5, 0)
                       cellFrame.invite:SetPoint('CENTER', cellFrame.buttonFrame, 'CENTER', 0, 0)
                   end
 
                   if (cellFrame.whisper == nil) then
-                      cellFrame.whisper = UIBuilder:TextButton(cellFrame, 'Whisper', 50, 20)
+                      cellFrame.whisper = UIBuilder:TextButton(cellFrame, L["Whisper"], 60, 20)
                       -- cellFrame.whisper:SetPoint('RIGHT', cellFrame.invite, 'LEFT', -1, 0)
                       cellFrame.whisper:SetPoint('LEFT', cellFrame.buttonFrame, 'LEFT', 0, 0)
                   end
@@ -117,9 +119,9 @@ local waitlistTableCols = {
 
 local playerTableCols = {
   {
-      name = 'Name',
-      width = 115,
-      align = 'LEFT',
+      name = L["Name"],
+      width = 130,
+      align = 'CENTER',
       format = 'string',
       index = 'name',
       sortable = true,
@@ -128,7 +130,7 @@ local playerTableCols = {
       color = {r=1,g=1,b=1,a=1}
   },
   {
-      name = 'Bal',
+      name = L["Bal"],
       width = 70,
       align = 'CENTER',
       format = 'number',
@@ -155,8 +157,8 @@ local playerTableCols = {
       }
   },
   {
-      name = 'Cost',
-      width = 70,
+      name = L["Cost"],
+      width = 60,
       align = 'CENTER',
       format = 'number',
       index = 'overrideCharge',
@@ -186,9 +188,9 @@ local playerTableCols = {
       }
   },
   {
-      name = 'Actions',
+      name = L["Actions"],
       width = 160,
-      align = 'RIGHT',
+      align = 'CENTER',
       format = 'custom',
       index = 'name',
       sortable = false,
@@ -197,7 +199,7 @@ local playerTableCols = {
 
                     if (cellFrame.buttonFrame == nil) then
                       local buttonFrame = CreateFrame("Frame", nil, cellFrame)
-                      buttonFrame:SetWidth(150)
+                      buttonFrame:SetWidth(160)
                       buttonFrame:SetHeight(20)
 
                       buttonFrame:SetPoint("RIGHT", cellFrame, "RIGHT", -1, 0)
@@ -205,13 +207,13 @@ local playerTableCols = {
                     end
 
                     if (cellFrame.trade == nil) then
-                        cellFrame.trade = UIBuilder:TextButton(cellFrame, 'Trade', 50, 20)
+                        cellFrame.trade = UIBuilder:TextButton(cellFrame, L["Trade"], 50, 20)
                         -- cellFrame.trade:SetPoint('RIGHT', cellFrame, 'RIGHT', -1, 0)
                         cellFrame.trade:SetPoint('RIGHT', cellFrame.buttonFrame, 'RIGHT', 0, 0)
                     end
 
                     if (cellFrame.add == nil) then
-                        cellFrame.add = UIBuilder:TextButton(cellFrame, 'Add', 50, 20)
+                        cellFrame.add = UIBuilder:TextButton(cellFrame, L["Add"], 50, 20)
                         -- cellFrame.add:SetPoint('RIGHT', cellFrame.trade, 'LEFT', -1.5, 0)
                         cellFrame.add:SetPoint('CENTER', cellFrame.buttonFrame, 'CENTER', 0, 0)
                     end
@@ -226,7 +228,7 @@ local playerTableCols = {
                     end
 
                     if (cellFrame.charge == nil) then
-                        cellFrame.charge = UIBuilder:TextButton(cellFrame, 'Charge', 50, 20)
+                        cellFrame.charge = UIBuilder:TextButton(cellFrame, L["Charge"], 50, 20)
                         -- cellFrame.charge:SetPoint('RIGHT', cellFrame.add, 'LEFT', -1, 0)
                         cellFrame.charge:SetPoint('LEFT', cellFrame.buttonFrame, 'LEFT', 0, 0)
                     end
@@ -293,7 +295,7 @@ end
 -- Main GUI creation
 
 function GUI:Create()
-  local frame = UIBuilder:Window(UIParent, 468, 400, addonName)
+  local frame = UIBuilder:Window(UIParent, 470, 400, addonName)
   frame:SetToplevel(true)
   frame:SetPoint(DB.GUI.points[1], DB.GUI.points[2], DB.GUI.points[3], DB.GUI.points[4], DB.GUI.points[5])
   frame:SetMovable(true)
@@ -311,14 +313,14 @@ function GUI:Create()
 
   -- Header options
 
-  frame.auobillCheckbox = UIBuilder:Checkbox(frame,"Autobill","Automatically bill all players when instance reset is detected.",
+  frame.auobillCheckbox = UIBuilder:Checkbox(frame,L["Autobill"], L["AutobillTooltip"],
   function(checked)
       DB.Main.autobill = checked
   end)
   frame.auobillCheckbox:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -65)
   frame.auobillCheckbox:SetChecked(DB.Main.autobill or false)
 
-  frame.chargeAllButton = UIBuilder:TextButton(frame, "Charge All", 100, 25, 
+  frame.chargeAllButton = UIBuilder:TextButton(frame, L["ChargeAll"], 100, 25, 
   function()
     Main:ChargeAll()
   end)
@@ -338,8 +340,8 @@ function GUI:Create()
   end)
   frame.defaultPrice:SetPoint("RIGHT", frame.chargeAllButton, "LEFT", -10, 0)
 
-  local defaultPriceLabel = UIBuilder:Label(frame.defaultPrice, "Default Price:")
-  -- defaultPriceLabel:SetPoint("LEFT", frame.defaultPrice, "LEFT", -80, 0)
+  local defaultPriceLabel = UIBuilder:Label(frame.defaultPrice, L["DefaultPrice"])
+  defaultPriceLabel:SetPoint("LEFT", frame.defaultPrice, "LEFT", -45, 0)
 
   -- player table
 
@@ -351,8 +353,8 @@ function GUI:Create()
   frame.waitlistTable:SetPoint("TOPLEFT", frame.playerTable, "BOTTOMLEFT", 0, -65) 
 
   local formingOptions = {
-      {text = 'Forming', value = 1},
-      {text = 'Full', value = 0},
+      {text = L["Forming"], value = 1},
+      {text = L["Full"], value = 0},
    }
    frame.formingDropdown = UIBuilder:Dropdown(frame, 100, 25, formingOptions, DB.Main.forming and 1 or 0, 
     function(_, v)
@@ -413,9 +415,9 @@ function GUI:CreateMinimapIcon()
       end,
     OnTooltipShow = function(tt)
       tt:AddLine("BoostWaitlist")
-      tt:AddLine("LeftClick to open/close the BoostWaitlist GUI")
-      tt:AddLine("RightClick to activate BoostWaitlist")
-      tt:AddLine("Shift+RightClick to open config panel")
+      tt:AddLine(L["MinimapTooltipLeft"])
+      tt:AddLine(L["MinimapTooltipRight"])
+      tt:AddLine(L["MinimapTooltipSRight"])
     end,
   })
 
@@ -507,7 +509,7 @@ function GUI:Update(fullUpdate)
 end
 
 function GUI:ShowPopupFrame(reason)
-  if (reason == "DONE_BOOSTING") then
+  if (reason == L["DoneBoosting"]) then
     local buttons = {
       yes     = {
         text    = 'Yes',
