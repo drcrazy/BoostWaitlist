@@ -39,8 +39,8 @@ end
 local waitlistTableCols = {
   {
     name = L["Waitlist"],
-    width = 115,
-    align = 'CENTER',
+    width = 130,
+    align = 'LEFT',
     format = 'string',
     index = 'target',
     sortable = true,
@@ -52,7 +52,7 @@ local waitlistTableCols = {
   {
     name = L["WaitingOn"],
     width = 115,
-    align = 'CENTER',
+    align = 'LEFT',
     format = 'string',
     index = 'sender',
     sortable = true,
@@ -63,8 +63,8 @@ local waitlistTableCols = {
   },
   {
     name = L["Actions"],
-    width = 190,
-    align = 'CENTER',
+    width = 170,
+    align = 'RIGHT',
     format = 'custom',
     index = 'time',
     sortable = false,
@@ -75,7 +75,7 @@ local waitlistTableCols = {
 
                   if (cellFrame.buttonFrame == nil) then
                     local buttonFrame = CreateFrame("Frame", nil, cellFrame)
-                    buttonFrame:SetWidth(185)
+                    buttonFrame:SetWidth(150)
                     buttonFrame:SetHeight(20)
 
                     buttonFrame:SetPoint("RIGHT", cellFrame, "RIGHT", -1, 0)
@@ -83,19 +83,19 @@ local waitlistTableCols = {
                   end
 
                   if (cellFrame.remove == nil) then
-                      cellFrame.remove = UIBuilder:TextButton(cellFrame, L["Remove"], 60, 20)
+                      cellFrame.remove = UIBuilder:TextButton(cellFrame, L["Remove"], 50, 20)
                       -- cellFrame.remove:SetPoint('RIGHT', cellFrame, 'RIGHT', -1, 0)
                       cellFrame.remove:SetPoint('RIGHT', cellFrame.buttonFrame, 'RIGHT', 0, 0)
                   end
 
                   if (cellFrame.invite == nil) then
-                      cellFrame.invite = UIBuilder:TextButton(cellFrame, L["Invite"], 60, 20)
+                      cellFrame.invite = UIBuilder:TextButton(cellFrame, L["Invite"], 50, 20)
                       -- cellFrame.invite:SetPoint('RIGHT', cellFrame.remove, 'LEFT', -1.5, 0)
                       cellFrame.invite:SetPoint('CENTER', cellFrame.buttonFrame, 'CENTER', 0, 0)
                   end
 
                   if (cellFrame.whisper == nil) then
-                      cellFrame.whisper = UIBuilder:TextButton(cellFrame, L["Whisper"], 60, 20)
+                      cellFrame.whisper = UIBuilder:TextButton(cellFrame, L["Whisper"], 50, 20)
                       -- cellFrame.whisper:SetPoint('RIGHT', cellFrame.invite, 'LEFT', -1, 0)
                       cellFrame.whisper:SetPoint('LEFT', cellFrame.buttonFrame, 'LEFT', 0, 0)
                   end
@@ -120,8 +120,8 @@ local waitlistTableCols = {
 local playerTableCols = {
   {
       name = L["Name"],
-      width = 130,
-      align = 'CENTER',
+      width = 115,
+      align = 'LEFT',
       format = 'string',
       index = 'name',
       sortable = true,
@@ -158,7 +158,7 @@ local playerTableCols = {
   },
   {
       name = L["Cost"],
-      width = 60,
+      width = 70,
       align = 'CENTER',
       format = 'number',
       index = 'overrideCharge',
@@ -190,7 +190,7 @@ local playerTableCols = {
   {
       name = L["Actions"],
       width = 160,
-      align = 'CENTER',
+      align = 'RIGHT',
       format = 'custom',
       index = 'name',
       sortable = false,
@@ -199,7 +199,7 @@ local playerTableCols = {
 
                     if (cellFrame.buttonFrame == nil) then
                       local buttonFrame = CreateFrame("Frame", nil, cellFrame)
-                      buttonFrame:SetWidth(160)
+                      buttonFrame:SetWidth(150)
                       buttonFrame:SetHeight(20)
 
                       buttonFrame:SetPoint("RIGHT", cellFrame, "RIGHT", -1, 0)
@@ -295,7 +295,7 @@ end
 -- Main GUI creation
 
 function GUI:Create()
-  local frame = UIBuilder:Window(UIParent, 470, 400, addonName)
+  local frame = UIBuilder:Window(UIParent, 468, 400, addonName)
   frame:SetToplevel(true)
   frame:SetPoint(DB.GUI.points[1], DB.GUI.points[2], DB.GUI.points[3], DB.GUI.points[4], DB.GUI.points[5])
   frame:SetMovable(true)
@@ -341,7 +341,7 @@ function GUI:Create()
   frame.defaultPrice:SetPoint("RIGHT", frame.chargeAllButton, "LEFT", -10, 0)
 
   local defaultPriceLabel = UIBuilder:Label(frame.defaultPrice, L["DefaultPrice"])
-  defaultPriceLabel:SetPoint("LEFT", frame.defaultPrice, "LEFT", -45, 0)
+  -- defaultPriceLabel:SetPoint("LEFT", frame.defaultPrice, "LEFT", -45, 0)
 
   -- player table
 
