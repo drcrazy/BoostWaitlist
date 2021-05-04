@@ -1,6 +1,7 @@
 ------------------------------------
 -- BoostWaitlist Beta (3/11/2020)
 ------------------------------------
+local L = LibStub("AceLocale-3.0"):GetLocale("BoostWaitlist", true)
 
 _G.BoostWaitlistDBDefaults = {
   Main = {
@@ -22,9 +23,9 @@ _G.BoostWaitlistDBDefaults = {
     blacklist = {},
     accountBalance = {},
     overrideCharge = {},
-    initialReply = "Thanks for your interest in my boosts.",
-    doneMessage = "Hey, I'm done boosting for now. Sorry you didn't get a chance to join - I'll try to get you in next time!",
-    inactivereplymsg = "Thanks for your interest in my boosts, however, I'm currently inactive.",
+    initialReply = L["initialReply"],
+    doneMessage = L["whisperDone"],
+    inactivereplymsg = L["whisperInactive"],
     name = "Booster",
     cost = 15,
     maxWaitlist = 20,

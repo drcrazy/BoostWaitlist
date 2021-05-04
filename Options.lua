@@ -1,3 +1,5 @@
+local L = LibStub("AceLocale-3.0"):GetLocale("BoostWaitlist", true)
+
 local addonName, addon = ...
 local Options = addon.Options or {}
 -- local Options = _G.BoostWaitlistOptions or {}
@@ -17,7 +19,7 @@ local UIBuilder = addon.UIBuilder
 
 ---General---------------------------------------------
 
-general.name = "General"
+general.name = L["General"]
 general.parent = addonName
 general:Hide()
 
@@ -25,27 +27,27 @@ function Options:GeneralShow()
 
     local title = UIBuilder:Header(general, general.name, true)
 
-    local minimapIcon = UIBuilder:Checkbox(general,"Enable minimap icon","Show BoostWaitlist button around minimap.",
+    local minimapIcon = UIBuilder:Checkbox(general, L["EminimapIcon"], L["EminimapIconTT"],
         function(checked)
             if(checked) then GUI:ShowMinimapIcon() else GUI:HideMinimapIcon() end DB.Main.everActive = checked
         end
     )
     minimapIcon:SetPoint("TOPLEFT", title, "BOTTOMLEFT", -2, -16)
 
-    local enableStats = UIBuilder:Checkbox(general,"Enable stats (NYI)","Collect and display gold/hr and XP/hr for boostees after each reset.  (NOT YET IMPLEMENTED)",
+    local enableStats = UIBuilder:Checkbox(general, L["EStats"], L["EStatsTT"],
         function(checked)
             DB.Main.enableStats = checked
         end
     )
     enableStats:SetPoint("TOPLEFT", minimapIcon, "BOTTOMLEFT", 0, 0)
 
-    local enableBalanceWhisperThreshold = UIBuilder:Checkbox(general,"Enable balance whisper threshold","To help reduce spam, only whisper boostees when their balance exceeds gold threshold.",
+    local enableBalanceWhisperThreshold = UIBuilder:Checkbox(general, L["BalanceWhisperThreshold"], L["BalanceWhisperThresholdTT"],
     function(checked)
         DB.Main.enableBalanceWhisperThreshold = checked
     end)
     enableBalanceWhisperThreshold:SetPoint("TOPLEFT", enableStats, "BOTTOMLEFT", 0, 0)
 
-    local goldThreshold = UIBuilder:Slider(general, "Gold Threshold", "Gold threshold to meet before whispering balance.", -100, 100, 
+    local goldThreshold = UIBuilder:Slider(general, L["GThreshold"], L["GThresholdTT"], -100, 100, 
     function(v)
         DB.Main.balanceWhisperThreshold = v
     end)
@@ -54,28 +56,28 @@ function Options:GeneralShow()
     --
     -- Column 2
     --
-    local enableAutobill = UIBuilder:Checkbox(general,"Enable Autobill on instance reset","Automatically bill all players when instance reset is detected.",
+    local enableAutobill = UIBuilder:Checkbox(general, L["EAutobill"], L["EAutobillTT"],
     function(checked)
         DB.Main.autobill = checked
     end
     )
     enableAutobill:SetPoint("LEFT", minimapIcon, "RIGHT", 120, 0)
 
-    local enableSounds = UIBuilder:Checkbox(general,"Play waitlist sounds","Play sounds when players are added or removed from the waitlist.",
+    local enableSounds = UIBuilder:Checkbox(general, L["ESounds"], L["ESoundsTT"],
     function(checked)
         DB.Main.enableSounds = checked
     end
     )
     enableSounds:SetPoint("TOPLEFT", enableAutobill, "BOTTOMLEFT", 0, 0)
 
-    local enableWaitlist = UIBuilder:Checkbox(general,"Enable waitlist","Respond to whispers encouraging players to queue for your services.",
+    local enableWaitlist = UIBuilder:Checkbox(general, L["EWaitlist"], L["EWaitlistTT"],
     function(checked)
         DB.Main.enableWaitlist = checked
     end)
     enableWaitlist:SetPoint("TOPLEFT", enableSounds, "BOTTOMLEFT", 0, 0)
 
 
-    local maxWaitlist = UIBuilder:Slider(general, "Max Waitlist", "Maximum number of boostees on waitlist before addon stops responding.", 1, 20, 
+    local maxWaitlist = UIBuilder:Slider(general, L["MWaitlist"], L["MWaitlistTT"], 1, 20, 
     function(v)
         DB.Main.maxWaitlist = v
     end)
@@ -146,7 +148,7 @@ end
 ---About END--------------------------------------------
 
 ---About-----------------------------------------------
-playerDB.name = "Player Database"
+playerDB.name = L["Player Database"]
 playerDB.parent = addonName
 playerDB:Hide()
 
@@ -156,7 +158,7 @@ function Options:PlayerDBShow()
 
     local tableCols = {
         {
-            name = 'Name',
+            name = L["Name"],
             width = 120,
             align = 'LEFT',
             format = 'string',
@@ -166,7 +168,7 @@ function Options:PlayerDBShow()
             color = {r=1,g=1,b=1,a=1}
         },
         {
-            name = 'Balance',
+            name = L["Balance"],
             width = 100,
             align = 'LEFT',
             format = 'number',
@@ -192,7 +194,7 @@ function Options:PlayerDBShow()
             }
         },
         {
-            name = 'Override',
+            name = L["Override"],
             width = 120,
             align = 'LEFT',
             format = 'number',
@@ -223,8 +225,8 @@ function Options:PlayerDBShow()
             }
         },
         {
-            name = 'Blacklist',
-            width = 70,
+            name = L["Blacklist"],
+            width = 110,
             align = 'LEFT',
             format = 'boolean',
             index = 'blacklist',
