@@ -226,7 +226,7 @@ function Options:PlayerDBShow()
         },
         {
             name = L["Blacklist"],
-            width = 110,
+            width = 70,
             align = 'LEFT',
             format = 'boolean',
             index = 'blacklist',
