@@ -1,6 +1,5 @@
 local addonName, addon = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("BoostWaitlist", true)
-local UTF8 = LibStub("UTF8")
 
 -- Create saved global vars
 _G.BoostWaitlistDB = _G.BoostWaitlistDB or {}
@@ -171,9 +170,9 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
   elseif (cmd[1] == "blacklist") then
     cmd = {strsplit(" ", msg, 3)}
     if (#cmd == 2) then
-      Main:AddBlacklist(strlower(cmd[2]):gsub("^%l", string.upper), "no reason")
+      Main:AddBlacklist(Main:FormatCharName(cmd[2]), "no reason")
     else
-      Main:AddBlacklist(strlower(cmd[2]):gsub("^%l", string.upper), strlower(cmd[3]):gsub("^%l", string.upper))
+      Main:AddBlacklist(Main:FormatCharName(cmd[2]), Main:FormatCharName(cmd[3]))
     end
     used = 1
   elseif (#cmd == 2) then
@@ -278,10 +277,10 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
       end
       used = 1
     elseif (cmd[1] == "charge") then
-      Main:ChargeBalance(strlower(cmd[2]):gsub("^%l", string.upper))
+      Main:ChargeBalance(Main:FormatCharName(cmd[2]))
       used = 1
     elseif (cmd[1] == "add") then
-      Main:RequestWaitlist(strlower(cmd[2]):gsub("^%l", string.upper), strlower(cmd[2]):gsub("^%l", string.upper))
+      Main:RequestWaitlist(Main:FormatCharName(cmd[2]), Main:FormatCharName(cmd[2]))
       used = 1
     elseif (cmd[1] == "forming") then
       DB.forming = (cmd[2] == "on")
@@ -297,28 +296,28 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
     end
   elseif (#cmd == 3) then
     if (cmd[1] == "connect") then
-      if (Main:InWaitlist(strlower(cmd[2]):gsub("^%l", string.upper))) then
-        Main:UpdateWaitlistSender(strlower(cmd[3]):gsub("^%l", string.upper), strlower(cmd[2]):gsub("^%l", string.upper))
+      if (Main:InWaitlist(Main:FormatCharName(cmd[2]))) then
+        Main:UpdateWaitlistSender(Main:FormatCharName(cmd[3]), Main:FormatCharName(cmd[2]))
       else
         print(L["notInWaitlist"](cmd[2]))
       end
       used = 1
     elseif (cmd[1] == "add") then
-      Main:RequestWaitlist(strlower(cmd[3]):gsub("^%l", string.upper), strlower(cmd[2]):gsub("^%l", string.upper))
+      Main:RequestWaitlist(Main:FormatCharName(cmd[3]), Main:FormatCharName(cmd[2]))
       used = 1
     elseif (cmd[1] == "print") then
       if (cmd[2] == "balance") then
-        Main:PrintBalance(strlower(cmd[3]):gsub("^%l", string.upper))
+        Main:PrintBalance(Main:FormatCharName(cmd[3]))
         used = 1
       end
     elseif (cmd[1] == "reset") then
       if (cmd[2] == "balance") then
-        Main:ResetBalance(strlower(cmd[3]):gsub("^%l", string.upper))
+        Main:ResetBalance(Main:FormatCharName(cmd[3]))
         used = 1
       end
     elseif (cmd[1] == "remove") then
       if (cmd[2]:find("black") == 1) then
-        Main:RemoveBlacklist(strlower(cmd[3]):gsub("^%l", string.upper))
+        Main:RemoveBlacklist(Main:FormatCharName(cmd[3]))
         used = 1
       end
     end
@@ -327,7 +326,7 @@ SlashCmdList["BOOSTWAITLIST"] = function(msg)
       if (cmd[2] == "balance") then
         local amount = tonumber(cmd[4])
         if (amount ~= nil) then
-          Main:AddBalance(strlower(cmd[3]):gsub("^%l", string.upper), amount)
+          Main:AddBalance(Main:FormatCharName(cmd[3]), amount)
         else
           print(L["invalidAmount"])
 	end
@@ -977,8 +976,7 @@ function Main:GetConvState(sender)
   end
 end
 
-function Main:FormatCharName(str)
-  local bytesPerChar = UTF8.utf8charbytes(str, 1)
-  
-  
+function Main:FormatCharName(originalName)
+  local charName = strlower(originalName)
+  return charName:utf8sub(1, 1):upper() .. charName:sub(2, -1)
 end
