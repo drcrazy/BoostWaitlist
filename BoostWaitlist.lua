@@ -1,5 +1,6 @@
 local addonName, addon = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("BoostWaitlist", true)
+local UTF8 = LibStub("UTF8")
 
 -- Create saved global vars
 _G.BoostWaitlistDB = _G.BoostWaitlistDB or {}
@@ -974,4 +975,10 @@ function Main:GetConvState(sender)
   else
     return Main.convState[sender]
   end
+end
+
+function Main:FormatCharName(str)
+  local bytesPerChar = UTF8.utf8charbytes(str, 1)
+  
+  
 end
